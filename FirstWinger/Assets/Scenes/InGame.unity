@@ -215,6 +215,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 82400769}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &132222865 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4905783215201366253, guid: b636b6affe4d06c449cd29089bb81524,
+    type: 3}
+  m_PrefabInstance: {fileID: 360137473}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76f2afb0454881544bb9e593b567c22e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &360137473
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -276,6 +288,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4905783215201366253, guid: b636b6affe4d06c449cd29089bb81524,
+        type: 3}
+      propertyPath: MainBGQuadTransform
+      value: 
+      objectReference: {fileID: 1385752024}
+    - target: {fileID: 4905783215201366253, guid: b636b6affe4d06c449cd29089bb81524,
+        type: 3}
+      propertyPath: Speed
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5228993149759415982, guid: b636b6affe4d06c449cd29089bb81524,
         type: 3}
@@ -428,6 +450,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5eeff80514e22b343ba9af4c694e5b73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 132222865}
 --- !u!4 &858205322
 Transform:
   m_ObjectHideFlags: 0

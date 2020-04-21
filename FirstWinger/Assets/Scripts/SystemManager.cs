@@ -26,7 +26,16 @@ public class SystemManager : MonoBehaviour
         intance = this;
     }
     //
+    [SerializeField]
+    Player player;
 
+    public Player Hero
+    {
+        get
+        {
+            return player;
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
