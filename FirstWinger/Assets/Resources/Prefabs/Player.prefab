@@ -123,6 +123,36 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.61, y: 0.29, z: 1}
   m_Center: {x: 0, y: -0.03, z: 0}
+--- !u!1 &3502058829137653609
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 135285801144374262}
+  m_Layer: 0
+  m_Name: FirePoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &135285801144374262
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3502058829137653609}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.719, y: -0.083, z: -0.104}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3309688505452017487}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5228993149759415982
 GameObject:
   m_ObjectHideFlags: 0
@@ -154,6 +184,7 @@ Transform:
   m_Children:
   - {fileID: 152319881080952479}
   - {fileID: 8807422433034337545}
+  - {fileID: 135285801144374262}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -173,6 +204,9 @@ MonoBehaviour:
   Speed: 0
   boxCollider: {fileID: 1809880761277366367}
   MainBGQuadTransform: {fileID: 0}
+  FireTransform: {fileID: 135285801144374262}
+  Bullet: {fileID: 4385929981673832995, guid: e3a9fc913d1128542b9d42454d162f0f, type: 3}
+  BulletSpeed: 10
 --- !u!54 &884731603003614781
 Rigidbody:
   m_ObjectHideFlags: 0
