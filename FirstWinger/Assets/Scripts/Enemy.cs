@@ -59,10 +59,7 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyUp(KeyCode.L))
-        {
-            Appear(new Vector3(7, transform.position.y, transform.position.z));
-        }
+
         //
         switch (CurrentState)
         {
