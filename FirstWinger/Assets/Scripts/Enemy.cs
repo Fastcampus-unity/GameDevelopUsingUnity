@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public enum State
+    public enum State : int
     {
         None = -1,  // 사용전
         Ready = 0,  // 준비 완료
@@ -47,8 +47,20 @@ public class Enemy : MonoBehaviour
 
     float MoveStartTime = 0.0f; // 이동시작 시간
 
+    [SerializeField]
+    Transform FireTransform;
 
-    float BattleStartTime = 0.0f;   // 전투 시작 시간
+    [SerializeField]
+    GameObject Bullet;
+
+    [SerializeField]
+    float BulletSpeed = 1;
+
+
+    float LastBattleUpdateTime = 0.0f;
+
+    [SerializeField]
+    int FireRemainCount = 1;
 
     // Start is called before the first frame update
     void Start()
@@ -65,8 +77,9 @@ public class Enemy : MonoBehaviour
         {
             case State.None:
             case State.Ready:
+                break;
             case State.Dead:
-                return;
+                break;
             case State.Appear:
             case State.Disappear:
                 UpdateSpeed();
@@ -104,25 +117,18 @@ public class Enemy : MonoBehaviour
         transform.position = Vector3.SmoothDamp(transform.position, TargetPosition, ref CurrentVelocity, distance / CurrentSpeed, MaxSpeed);
     }
 
-    void UpdateBattle()
-    {
-        // 임시로 3초 대기후 퇴장
-        if (Time.time - BattleStartTime > 3.0f)
-        {
-            Disappear(new Vector3(-15, transform.position.y, transform.position.z));
-        }
-    }
-
     void Arrived()
     {
         CurrentSpeed = 0.0f;    // 도착했으므로 속도는 0
         if (CurrentState == State.Appear)
         {
             CurrentState = State.Battle;
-            BattleStartTime = Time.time;
+            LastBattleUpdateTime = Time.time;
         }
-        else if (CurrentState == State.Disappear)
+        else // if (CurrentState == State.Disappear)
+        {
             CurrentState = State.None;
+        }
     }
 
     public void Appear(Vector3 targetPos)
@@ -143,6 +149,24 @@ public class Enemy : MonoBehaviour
         MoveStartTime = Time.time;
     }
 
+    void UpdateBattle()
+    {
+        if(Time.time - LastBattleUpdateTime > 1.0f)
+        {
+            if (FireRemainCount > 0)
+            {
+                Fire();
+                FireRemainCount--;
+            }
+            else
+            {
+                Disappear(new Vector3(-15.0f, transform.position.y, transform.position.z));
+            }
+
+            LastBattleUpdateTime = Time.time;
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         Player player = other.GetComponentInParent<Player>();
@@ -155,4 +179,11 @@ public class Enemy : MonoBehaviour
         Debug.Log("OnCrash player = " + player);
     }
 
+    public void Fire()
+    {
+        GameObject go = Instantiate(Bullet);
+
+        Bullet bullet = go.GetComponent<Bullet>();
+        bullet.Fire(OwnerSide.Enemy, FireTransform.position, -FireTransform.right, BulletSpeed);
+    }
 }
