@@ -102,4 +102,10 @@ public class Player : Actor
         Bullet bullet = go.GetComponent<Bullet>();
         bullet.Fire(this, FireTransform.position, FireTransform.right, BulletSpeed, Damage);
     }
+
+    protected override void OnDead(Actor killer)
+    {
+        base.OnDead(killer);
+        gameObject.SetActive(false);
+    }
 }
