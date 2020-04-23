@@ -17,13 +17,15 @@ public class EnemyFactory : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        
     }
+
 
     public GameObject Load(string resourcePath)
     {
         GameObject go = null;
-        if (EnemyFileCache.ContainsKey(resourcePath))   // 캐시 확인
+
+        if(EnemyFileCache.ContainsKey(resourcePath))   // 캐시 확인
         {
             go = EnemyFileCache[resourcePath];
         }
@@ -31,7 +33,7 @@ public class EnemyFactory : MonoBehaviour
         {
             // 캐시에 없으므로 로드
             go = Resources.Load<GameObject>(resourcePath);
-            if (!go)
+            if(!go)
             {
                 Debug.LogError("Load error! path = " + resourcePath);
                 return null;
@@ -40,9 +42,7 @@ public class EnemyFactory : MonoBehaviour
             EnemyFileCache.Add(resourcePath, go);
         }
 
-        // 인스턴스를 해서 반환
-        GameObject InstancedGO = Instantiate<GameObject>(go);
-        return InstancedGO;
+        return go;
     }
 
 }

@@ -257,6 +257,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyFactory: {fileID: 2141644139}
+  enemyFiles:
+  - filePath: Prefabs/Enemy
+    cacheCount: 10
 --- !u!4 &191712768
 Transform:
   m_ObjectHideFlags: 0
@@ -300,9 +303,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9a23999746083f42861c3986888c5d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  effectPrefabs:
-  - {fileID: 100008, guid: 7075bd5fe1480184695a32611c15da57, type: 3}
-  - {fileID: 100014, guid: 5332791ebce075d4a9e56f4581e7fb47, type: 3}
+  effectFiles:
+  - filePath: Prefabs/WFX_Explosion_Simple
+    cacheCount: 30
+  - filePath: Prefabs/WFX_Explosion_Small
+    cacheCount: 20
 --- !u!4 &202020477
 Transform:
   m_ObjectHideFlags: 0
@@ -401,6 +406,54 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b636b6affe4d06c449cd29089bb81524, type: 3}
+--- !u!1 &374296555
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 374296557}
+  - component: {fileID: 374296556}
+  m_Layer: 0
+  m_Name: BulletManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &374296556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 374296555}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63fa784aad3bbdd4f9751edcfdc2db5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletFiles:
+  - filePath: Prefabs/Bullet
+    cacheCount: 20
+  - filePath: Prefabs/EnemyBullet
+    cacheCount: 30
+--- !u!4 &374296557
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 374296555}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &398288880
 GameObject:
   m_ObjectHideFlags: 0
@@ -547,6 +600,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 132222865}
   effectManager: {fileID: 202020476}
+  enemyManager: {fileID: 0}
+  bulletManager: {fileID: 0}
 --- !u!4 &858205322
 Transform:
   m_ObjectHideFlags: 0

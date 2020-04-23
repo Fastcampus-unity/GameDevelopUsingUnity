@@ -54,6 +54,57 @@ public class SystemManager : MonoBehaviour
         }
     }
 
+
+    [SerializeField]
+    EnemyManager enemyManager;
+
+    public EnemyManager EnemyManager
+    {
+        get
+        {
+            return enemyManager;
+        }
+    }
+
+    [SerializeField]
+    BulletManager bulletManager;
+    public BulletManager BulletManager
+    {
+        get
+        {
+            return bulletManager;
+        }
+    }
+
+
+
+    PrefabCacheSystem enemyCacheSystem = new PrefabCacheSystem();
+    public PrefabCacheSystem EnemyCacheSystem
+    {
+        get
+        {
+            return enemyCacheSystem;
+        }
+    }
+
+    PrefabCacheSystem bulletCacheSystem = new PrefabCacheSystem();
+    public PrefabCacheSystem BulletCacheSystem
+    {
+        get
+        {
+            return bulletCacheSystem;
+        }
+    }
+
+    PrefabCacheSystem effectCacheSystem = new PrefabCacheSystem();
+    public PrefabCacheSystem EffectCacheSystem
+    {
+        get
+        {
+            return effectCacheSystem;
+        }
+    }
+
     void Awake()
     {
         // 유일하게 존재할 수 있도록 에러 처리
