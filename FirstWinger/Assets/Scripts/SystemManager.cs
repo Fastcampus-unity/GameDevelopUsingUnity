@@ -76,6 +76,15 @@ public class SystemManager : MonoBehaviour
         }
     }
 
+    [SerializeField]
+    DamageManager damageManager;
+    public DamageManager DamageManager
+    {
+        get
+        {
+            return damageManager;
+        }
+    }
 
 
     PrefabCacheSystem enemyCacheSystem = new PrefabCacheSystem();
@@ -104,6 +113,16 @@ public class SystemManager : MonoBehaviour
             return effectCacheSystem;
         }
     }
+
+    PrefabCacheSystem damageCacheSystem = new PrefabCacheSystem();
+    public PrefabCacheSystem DamageCacheSystem
+    {
+        get
+        {
+            return damageCacheSystem;
+        }
+    }
+
 
     void Awake()
     {
