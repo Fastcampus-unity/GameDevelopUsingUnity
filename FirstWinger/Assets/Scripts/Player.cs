@@ -28,6 +28,15 @@ public class Player : Actor
     [SerializeField]
     float BulletSpeed = 1;
 
+    [SerializeField]
+    Gage HPGage;
+
+    protected override void Initialize()
+    {
+        base.Initialize();
+        HPGage.SetHP(CurrentHP, MaxHP);
+    }
+
     protected override void UpdateActor()
     {
         UpdateMove();
@@ -98,9 +107,16 @@ public class Player : Actor
         bullet.Fire(this, FireTransform.position, FireTransform.right, BulletSpeed, Damage);
     }
 
+    protected override void DecreaseHP(Actor attacker, int value)
+    {
+        base.DecreaseHP(attacker, value);
+        HPGage.SetHP(CurrentHP, MaxHP);
+    }
+
     protected override void OnDead(Actor killer)
     {
         base.OnDead(killer);
         gameObject.SetActive(false);
     }
+
 }
