@@ -600,8 +600,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 132222865}
   effectManager: {fileID: 202020476}
-  enemyManager: {fileID: 0}
-  bulletManager: {fileID: 0}
+  enemyManager: {fileID: 191712767}
+  bulletManager: {fileID: 374296556}
 --- !u!4 &858205322
 Transform:
   m_ObjectHideFlags: 0
