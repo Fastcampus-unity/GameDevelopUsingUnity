@@ -90,10 +90,9 @@ public class Player : Actor
         }
     }
 
-    public void OnCrash(Enemy enemy, int damage)
+    public override void OnCrash(Actor attacker, int damage)
     {
-        Debug.Log("OnCrash enemy = " + enemy);
-        OnCrash(damage);
+        base.OnCrash(attacker, damage);
     }
 
     public void Fire()
@@ -101,6 +100,6 @@ public class Player : Actor
         GameObject go = Instantiate(Bullet);
 
         Bullet bullet = go.GetComponent<Bullet>();
-        bullet.Fire(OwnerSide.Player, FireTransform.position, FireTransform.right, BulletSpeed, Damage);
+        bullet.Fire(this, FireTransform.position, FireTransform.right, BulletSpeed, Damage);
     }
 }

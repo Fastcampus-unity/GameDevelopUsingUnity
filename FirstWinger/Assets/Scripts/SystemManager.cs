@@ -4,26 +4,17 @@ using UnityEngine;
 
 public class SystemManager : MonoBehaviour
 {
-    static SystemManager intance = null;
+    /// <summary>
+    /// 싱글톤 인스턴스
+    /// </summary>
+    static SystemManager instance = null;
 
     public static SystemManager Instance
     {
         get
         {
-            return intance;
+            return instance;
         }
-    }
-
-    private void Awake()
-    {
-        if(intance != null)
-        {
-            Debug.LogError("SystemManager error! Singletone eror!");
-            Destroy(gameObject);
-            return;
-        }
-
-        intance = this;
     }
     //
     [SerializeField]
@@ -33,8 +24,50 @@ public class SystemManager : MonoBehaviour
     {
         get
         {
+            if(!player)
+            {
+                Debug.LogError("Main Player is not setted!");
+            }
+
             return player;
         }
+    }
+
+    GamePointAccumulator gamePointAccumulator = new GamePointAccumulator();
+
+    public GamePointAccumulator GamePointAccumulator
+    {
+        get
+        {
+            return gamePointAccumulator;
+        }
+    }
+
+    [SerializeField]
+    EffectManager effectManager;
+
+    public EffectManager EffectManager
+    {
+        get
+        {
+            return effectManager;
+        }
+    }
+
+    void Awake()
+    {
+        // 유일하게 존재할 수 있도록 에러 처리
+        if(instance != null)
+        {
+            Debug.LogError("SystemManager is initialized twice!");
+            Destroy(gameObject);
+            return;
+        }
+
+        instance = this;
+
+        // Scene 이동간에 사라지지 않도록 처리
+        DontDestroyOnLoad(gameObject);
     }
 
     // Start is called before the first frame update
