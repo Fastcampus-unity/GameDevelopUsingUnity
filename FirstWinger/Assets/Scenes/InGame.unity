@@ -300,7 +300,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9a23999746083f42861c3986888c5d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  effectPrefabs: []
+  effectPrefabs:
+  - {fileID: 100008, guid: 7075bd5fe1480184695a32611c15da57, type: 3}
+  - {fileID: 100014, guid: 5332791ebce075d4a9e56f4581e7fb47, type: 3}
 --- !u!4 &202020477
 Transform:
   m_ObjectHideFlags: 0
