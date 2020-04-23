@@ -2,11 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : Actor
 {
+    /// <summary>
+    /// 이동할 벡터
+    /// </summary>
     [SerializeField]
     Vector3 MoveVector = Vector3.zero;
 
+    /// <summary>
+    /// 이동 속도
+    /// </summary>
     [SerializeField]
     float Speed;
 
@@ -25,18 +31,14 @@ public class Player : MonoBehaviour
     [SerializeField]
     float BulletSpeed = 1;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
+    protected override void UpdateActor()
     {
         UpdateMove();
     }
 
+    /// <summary>
+    /// 이동벡터에 맞게 위치를 변경
+    /// </summary>
     void UpdateMove()
     {
         if (MoveVector.sqrMagnitude == 0)
@@ -47,6 +49,10 @@ public class Player : MonoBehaviour
         transform.position += MoveVector;
     }
 
+    /// <summary>
+    /// 이동 방향에 맞게 이동벡터를 계산
+    /// </summary>
+    /// <param name="moveDirection"></param>
     public void ProcessInput(Vector3 moveDirection)
     {
         MoveVector = moveDirection * Speed * Time.deltaTime;
@@ -78,12 +84,16 @@ public class Player : MonoBehaviour
     {
         Enemy enemy = other.GetComponentInParent<Enemy>();
         if (enemy)
-            enemy.OnCrash(this);
+        {
+            if(!enemy.IsDead)
+                enemy.OnCrash(this, CrashDamage);
+        }
     }
 
-    public void OnCrash(Enemy enemy)
+    public void OnCrash(Enemy enemy, int damage)
     {
         Debug.Log("OnCrash enemy = " + enemy);
+        OnCrash(damage);
     }
 
     public void Fire()
@@ -91,6 +101,6 @@ public class Player : MonoBehaviour
         GameObject go = Instantiate(Bullet);
 
         Bullet bullet = go.GetComponent<Bullet>();
-        bullet.Fire(OwnerSide.Player, FireTransform.position, FireTransform.right, BulletSpeed);
+        bullet.Fire(OwnerSide.Player, FireTransform.position, FireTransform.right, BulletSpeed, Damage);
     }
 }

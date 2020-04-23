@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy : Actor
 {
     public enum State : int
     {
@@ -62,16 +62,9 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     int FireRemainCount = 1;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     // Update is called once per frame
-    void Update()
+    protected override void UpdateActor()
     {
-
         //
         switch (CurrentState)
         {
@@ -103,7 +96,7 @@ public class Enemy : MonoBehaviour
     void UpdateMove()
     {
         float distance = Vector3.Distance(TargetPosition, transform.position);
-        if (distance == 0)
+        if(distance == 0)
         {
             Arrived();
             return;
@@ -171,12 +164,17 @@ public class Enemy : MonoBehaviour
     {
         Player player = other.GetComponentInParent<Player>();
         if (player)
-            player.OnCrash(this);
+        {
+            if (!player.IsDead)
+                player.OnCrash(this, CrashDamage);
+        }
     }
 
-    public void OnCrash(Player player)
+    public void OnCrash(Player player, int damage)
     {
         Debug.Log("OnCrash player = " + player);
+
+        OnCrash(damage);
     }
 
     public void Fire()
@@ -184,6 +182,15 @@ public class Enemy : MonoBehaviour
         GameObject go = Instantiate(Bullet);
 
         Bullet bullet = go.GetComponent<Bullet>();
-        bullet.Fire(OwnerSide.Enemy, FireTransform.position, -FireTransform.right, BulletSpeed);
+        bullet.Fire(OwnerSide.Enemy, FireTransform.position, -FireTransform.right, BulletSpeed, Damage);
+    }
+
+    protected override void OnDead()
+    {
+        base.OnDead();
+
+        CurrentState = State.Dead;
+
     }
 }
+

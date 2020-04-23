@@ -200,8 +200,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76f2afb0454881544bb9e593b567c22e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MaxHP: 100
+  CurrentHP: 0
+  Damage: 100
+  crashDamage: 100
+  isDead: 0
   MoveVector: {x: 0, y: 0, z: 0}
-  Speed: 0
+  Speed: 5
   boxCollider: {fileID: 1809880761277366367}
   MainBGQuadTransform: {fileID: 0}
   FireTransform: {fileID: 135285801144374262}
