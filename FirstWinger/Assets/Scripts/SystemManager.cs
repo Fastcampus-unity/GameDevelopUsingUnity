@@ -123,6 +123,16 @@ public class SystemManager : MonoBehaviour
         }
     }
 
+    [SerializeField]
+    EnemyTable enemyTable;
+
+    public EnemyTable EnemyTable
+    {
+        get
+        {
+            return enemyTable;
+        }
+    }
 
     void Awake()
     {

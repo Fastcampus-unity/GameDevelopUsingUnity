@@ -1,0 +1,8 @@
+index,FilePath,MaxHP,Damage,CrashDamage,BulletSpeed,FireRemainCount,GamePoint
+0,Prefabs/Enemy,100,10,100,5,1,5
+1,Prefabs/Enemy,100,15,100,5,1,6
+2,Prefabs/Enemy,100,20,100,5,1,7
+3,Prefabs/Enemy,100,25,100,5,2,8
+4,Prefabs/Enemy,100,30,100,5,2,9
+5,Prefabs/Enemy,100,35,100,5,2,10
+6,Prefabs/Enemy,100,40,100,5,3,11

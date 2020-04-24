@@ -1,0 +1,4 @@
+index,EnemyID,GeneratePointX,GeneratePointY,AppearPointX,AppearPointY,DisappearPointX,DisappearPointY
+0,2,15,3.5,7,3.5,-15,3.5
+1,2,15,0,7,0,-15,0
+2,2,15,-3.5,7,-3.5,-15,-3.5
