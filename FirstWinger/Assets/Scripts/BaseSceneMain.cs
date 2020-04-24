@@ -18,7 +18,7 @@ public class BaseSceneMain : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        UpdateScene();
     }
 
     void OnDestroy()
