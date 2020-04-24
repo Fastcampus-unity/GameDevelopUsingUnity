@@ -109,7 +109,7 @@ public class Player : Actor
 
     public void Fire()
     {
-        Bullet bullet = SystemManager.Instance.BulletManager.Generate(BulletManager.PlayerBulletIndex);
+        Bullet bullet = SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().BulletManager.Generate(BulletManager.PlayerBulletIndex);
         bullet.Fire(this, FireTransform.position, FireTransform.right, BulletSpeed, Damage);
     }
 
@@ -120,7 +120,7 @@ public class Player : Actor
         playerStatePanel.SetHP(CurrentHP, MaxHP);
 
         Vector3 damagePoint = damagePos + Random.insideUnitSphere * 0.5f;
-        SystemManager.Instance.DamageManager.Generate(DamageManager.PlayerDamageIndex, damagePoint, value, Color.red);
+        SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().DamageManager.Generate(DamageManager.PlayerDamageIndex, damagePoint, value, Color.red);
     }
 
     protected override void OnDead(Actor killer)

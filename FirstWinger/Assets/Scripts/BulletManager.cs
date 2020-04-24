@@ -54,14 +54,14 @@ public class BulletManager : MonoBehaviour
         for (int i = 0; i < bulletFiles.Length; i++)
         {
             GameObject go = Load(bulletFiles[i].filePath);
-            SystemManager.Instance.BulletCacheSystem.GenerateCache(bulletFiles[i].filePath, go, bulletFiles[i].cacheCount);
+            SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().BulletCacheSystem.GenerateCache(bulletFiles[i].filePath, go, bulletFiles[i].cacheCount);
         }
     }
 
     public Bullet Generate(int index)
     {
         string filePath = bulletFiles[index].filePath;
-        GameObject go = SystemManager.Instance.BulletCacheSystem.Archive(filePath);
+        GameObject go = SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().BulletCacheSystem.Archive(filePath);
 
         Bullet bullet = go.GetComponent<Bullet>();
         bullet.FilePath = filePath;
@@ -71,7 +71,7 @@ public class BulletManager : MonoBehaviour
 
     public bool Remove(Bullet bullet)
     {
-        SystemManager.Instance.BulletCacheSystem.Restore(bullet.FilePath, bullet.gameObject);
+        SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().BulletCacheSystem.Restore(bullet.FilePath, bullet.gameObject);
         return true;
     }
 

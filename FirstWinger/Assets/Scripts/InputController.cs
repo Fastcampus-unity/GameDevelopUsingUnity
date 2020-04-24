@@ -13,11 +13,11 @@ public class InputController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        UpdateInput();
+        UpdateKeyboard();
         UpdateMouse();
     }
 
-    void UpdateInput()
+    void UpdateKeyboard()
     {
         Vector3 moveDirection = Vector3.zero;
 
@@ -25,20 +25,23 @@ public class InputController : MonoBehaviour
         {
             moveDirection.y = 1;
         }
+
         if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
         {
             moveDirection.y = -1;
         }
+
         if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
         {
             moveDirection.x = -1;
         }
+
         if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
         {
             moveDirection.x = 1;
         }
 
-        SystemManager.Instance.Hero.ProcessInput(moveDirection);
+        SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().Hero.ProcessInput(moveDirection);
 
     }
 
@@ -46,7 +49,7 @@ public class InputController : MonoBehaviour
     {
         if(Input.GetMouseButtonDown(0))
         {
-            SystemManager.Instance.Hero.Fire();
+            SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().Hero.Fire();
         }
     }
 }
