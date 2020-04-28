@@ -705,7 +705,7 @@ MonoBehaviour:
   - {fileID: 911221812821680546, guid: 8258f23750be1484dba77b05d6fa21db, type: 3}
   - {fileID: 4385929981673832995, guid: e3a9fc913d1128542b9d42454d162f0f, type: 3}
   - {fileID: 6835411853971257545, guid: b74d08f315064744dbc8c802971be4a2, type: 3}
-  m_CustomConfig: 0
+  m_CustomConfig: 1
   m_MaxConnections: 4
   m_ConnectionConfig:
     m_PacketSize: 1440
@@ -747,7 +747,7 @@ MonoBehaviour:
     m_MaxTimerTimeout: 12000
     m_MinNetSimulatorTimeout: 1
     m_MaxNetSimulatorTimeout: 12000
-  m_Channels: 
+  m_Channels: 0500000000000000
   m_UseWebSockets: 0
   m_UseSimulator: 0
   m_SimulatedLatency: 1

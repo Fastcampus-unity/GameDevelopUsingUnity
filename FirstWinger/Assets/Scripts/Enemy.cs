@@ -281,11 +281,12 @@ public class Enemy : Actor
     {
         base.OnDead();
 
-        SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().GamePointAccumulator.Accumulate(GamePoint);
-        SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().EnemyManager.RemoveEnemy(this);
+        InGameSceneMain inGameSceneMain = SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>();
+        inGameSceneMain.GamePointAccumulator.Accumulate(GamePoint);
+        inGameSceneMain.EnemyManager.RemoveEnemy(this);
+        inGameSceneMain.ItemBoxManager.Generate(0, transform.position);
 
         CurrentState = State.Dead;
-
     }
 
     protected override void DecreaseHP(int value, Vector3 damagePos)

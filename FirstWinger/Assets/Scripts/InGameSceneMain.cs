@@ -85,6 +85,16 @@ public class InGameSceneMain : BaseSceneMain
         }
     }
 
+    [SerializeField]
+    ItemBoxManager itemBoxManager;
+    public ItemBoxManager ItemBoxManager
+    {
+        get
+        {
+            return itemBoxManager;
+        }
+    }
+
     PrefabCacheSystem enemyCacheSystem = new PrefabCacheSystem();
     public PrefabCacheSystem EnemyCacheSystem
     {
@@ -120,6 +130,16 @@ public class InGameSceneMain : BaseSceneMain
             return damageCacheSystem;
         }
     }
+
+    PrefabCacheSystem itemBoxCacheSystem = new PrefabCacheSystem();
+    public PrefabCacheSystem ItemBoxCacheSystem
+    {
+        get
+        {
+            return itemBoxCacheSystem;
+        }
+    }
+
 
     [SerializeField]
     SquadronManager squadronManager;
