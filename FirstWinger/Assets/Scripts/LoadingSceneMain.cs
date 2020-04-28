@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LadingSceneMain : BaseSceneMain
+public class LoadingSceneMain : BaseSceneMain
 {
     const float NextSceneIntaval = 3.0f;
     const float TextUpdateIntaval = 0.15f;
@@ -52,7 +52,8 @@ public class LadingSceneMain : BaseSceneMain
 
     void GotoNextScene()
     {
-        SceneController.Instance.LoadScene(SceneNameConstants.InGame);
+        //SceneController.Instance.LoadScene(SceneNameConstants.InGame);
+        FWNetworkManager.singleton.StartHost();
         NextSceneCall = true;
     }
 
