@@ -5,6 +5,19 @@ using UnityEngine.Networking;
 
 public class ItemBox : NetworkBehaviour
 {
+    const int HPRecoveryValue = 20;
+    const int ScoreAddValue = 100;
+
+    public enum ItemEffect : int
+    {
+        HPRecovery = 0,
+        ScoreAdd,
+        UsableItemAdd,
+    }
+
+    [SerializeField]
+    ItemEffect itemEffect = ItemEffect.HPRecovery;
+
     [SerializeField]
     Transform SelfTransform;
 
@@ -94,7 +107,30 @@ public class ItemBox : NetworkBehaviour
 
         if (player.IsDead)
             return;
-        Debug.Log("OnItemCollision");
+
+        if(player.isLocalPlayer)
+        {
+
+            switch (itemEffect)
+            {
+                case ItemEffect.HPRecovery:
+                    player.IncreaseHP(HPRecoveryValue);
+                    break;
+                case ItemEffect.ScoreAdd:
+                    InGameSceneMain inGameSceneMain = SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>();
+                    inGameSceneMain.GamePointAccumulator.Accumulate(ScoreAddValue);
+                    break;
+                case ItemEffect.UsableItemAdd:
+                    player.IncreaseUsableItem();
+                    break;
+            }
+        }
+
+        Disappear();
     }
 
+    void Disappear()
+    {
+        SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().ItemBoxManager.Remove(this);
+    }
 }

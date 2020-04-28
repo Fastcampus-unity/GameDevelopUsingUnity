@@ -29,6 +29,28 @@ public class SystemManager : MonoBehaviour
         }
     }
 
+    [SerializeField]
+    ItemTable itemTable;
+
+    public ItemTable ItemTable
+    {
+        get
+        {
+            return itemTable;
+        }
+    }
+
+    [SerializeField]
+    ItemDropTable itemDropTable;
+
+    public ItemDropTable ItemDropTable
+    {
+        get
+        {
+            return itemDropTable;
+        }
+    }
+
     BaseSceneMain currentSceneMain;
 
     public BaseSceneMain CurrentSceneMain

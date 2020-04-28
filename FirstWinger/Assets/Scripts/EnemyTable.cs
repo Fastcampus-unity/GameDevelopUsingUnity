@@ -16,6 +16,8 @@ public struct EnemyStruct
     public int      BulletSpeed;
     public int      FireRemainCount;
     public int      GamePoint;
+    public float    ItemDropRate;
+    public int      ItemDropID;
 }
 
 public class EnemyTable : TableLoader<EnemyStruct>

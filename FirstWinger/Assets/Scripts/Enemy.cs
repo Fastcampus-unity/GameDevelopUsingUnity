@@ -91,6 +91,15 @@ public class Enemy : Actor
     Vector3 AppearPoint;      // 입장시 도착 위치
     [SyncVar]
     Vector3 DisappearPoint;      // 퇴장시 목표 위치
+    
+    [SerializeField]
+    [SyncVar]
+    float ItemDropRate;     // 아이템 생성 확률
+
+    [SerializeField]
+    [SyncVar]
+    int ItemDropID;         // 아이템 생성시 참조할 ItemDrop 테이블의 인덱스
+
 
     protected override void Initialize()
     {
@@ -205,6 +214,9 @@ public class Enemy : Actor
         AppearPoint = new Vector3(data.AppearPointX, data.AppearPointY, 0);             // 입장시 도착 위치 
         DisappearPoint = new Vector3(data.DisappearPointX, data.DisappearPointY, 0);    // 퇴장시 목표 위치
 
+        ItemDropRate = enemyStruct.ItemDropRate;    // 아이템 생성 확률
+        ItemDropID = enemyStruct.ItemDropID;        // 아이템 Drop 테이블 참조 인덱스
+
         CurrentState = State.Ready;
         LastActionUpdateTime = Time.time;
         //
@@ -284,7 +296,8 @@ public class Enemy : Actor
         InGameSceneMain inGameSceneMain = SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>();
         inGameSceneMain.GamePointAccumulator.Accumulate(GamePoint);
         inGameSceneMain.EnemyManager.RemoveEnemy(this);
-        inGameSceneMain.ItemBoxManager.Generate(0, transform.position);
+
+        GenerateItem();
 
         CurrentState = State.Dead;
     }
@@ -309,6 +322,36 @@ public class Enemy : Actor
     {
         ResetData(data);
         base.SetDirtyBit(1);
+    }
+
+    void GenerateItem()
+    {
+        if (!isServer)
+            return;
+
+        // 아이템 생성 확율을 검사
+        float ItemGen = Random.Range(0.0f, 100.0f);
+        if (ItemGen > ItemDropRate)
+            return;
+
+        ItemDropTable itemDropTable = SystemManager.Instance.ItemDropTable;
+        ItemDropStruct dropStruct = itemDropTable.GetDropData(ItemDropID);
+
+        // 어느 아이템을 생성할 것인지 확율 검사
+        ItemGen = Random.Range(0, dropStruct.Rate1 + dropStruct.Rate2 + dropStruct.Rate3);
+        int ItemIndex = -1;
+
+        if (ItemGen <= dropStruct.Rate1)     // 1번 아이템 비율보다 작은 경우
+            ItemIndex = dropStruct.ItemID1;
+        else if(ItemGen <= (dropStruct.Rate1 + dropStruct.Rate2))   // 2번 아이템 비율보다 작은 경우
+            ItemIndex = dropStruct.ItemID2;
+        else //if (ItemGen <= (dropStruct.Rate1 + dropStruct.Rate2 + dropStruct.Rate3)) // 3번 아이템 비율인 경우
+            ItemIndex = dropStruct.ItemID3;
+
+        Debug.Log("GenerateItem ItemIndex = " + ItemIndex);
+
+        InGameSceneMain inGameSceneMain = SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>();
+        inGameSceneMain.ItemBoxManager.Generate(ItemIndex, transform.position);
     }
 }
 

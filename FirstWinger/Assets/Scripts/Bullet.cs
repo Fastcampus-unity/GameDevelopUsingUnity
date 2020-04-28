@@ -143,8 +143,8 @@ public class Bullet : NetworkBehaviour
 
         actor.OnBulletHited(Damage, transform.position);
 
-        Collider myCollider = GetComponentInChildren<Collider>();
-        myCollider.enabled = false;
+        //Collider myCollider = GetComponentInChildren<Collider>();
+        //myCollider.enabled = false;
 
         Hited = true;
         NeedMove = false;
