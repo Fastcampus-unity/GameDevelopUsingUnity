@@ -5,6 +5,8 @@ using UnityEngine.Networking;
 
 public class Player : Actor
 {
+    const string PlayerHUDPath = "Prefabs/PlayerHUD";
+
     /// <summary>
     /// 이동할 벡터
     /// </summary>
@@ -36,6 +38,9 @@ public class Player : Actor
     [SyncVar]
     bool Host = false;  // Host 플레이어인지 여부
 
+    [SerializeField]
+    Material ClientPlayerMaterial;
+
     protected override void Initialize()
     {
         base.Initialize();
@@ -55,12 +60,27 @@ public class Player : Actor
         if (Host)
             startTransform = inGameSceneMain.PlayerStartTransform1;
         else
+        {
             startTransform = inGameSceneMain.PlayerStartTransform2;
+            MeshRenderer meshRenderer = GetComponentInChildren<MeshRenderer>();
+            meshRenderer.material = ClientPlayerMaterial;
+        }
 
         SetPosition(startTransform.position);
 
         if(actorInstanceID != 0)
             inGameSceneMain.ActorManager.Regist(actorInstanceID, this);
+
+        InitializePlayerHUD();
+    }
+
+    void InitializePlayerHUD()
+    {
+        InGameSceneMain inGameSceneMain = SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>();
+        GameObject go = Resources.Load<GameObject>(PlayerHUDPath);
+        GameObject goInstance = Instantiate<GameObject>(go, inGameSceneMain.DamageManager.CanvasTransform);
+        PlayerHUD playerHUD = goInstance.GetComponent<PlayerHUD>();
+        playerHUD.Initialize(this);
     }
 
     public override void OnStartClient()
