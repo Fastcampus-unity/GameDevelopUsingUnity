@@ -39,6 +39,16 @@ public class SystemManager : MonoBehaviour
         }
     }
 
+    [SerializeField]
+    NetworkConnectionInfo connectionInfo = new NetworkConnectionInfo();
+
+    public NetworkConnectionInfo ConnectionInfo
+    {
+        get
+        {
+            return connectionInfo;
+        }
+    }
 
     void Awake()
     {

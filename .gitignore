@@ -9,7 +9,7 @@
 [Bb]uild/
 [Bb]uilds/
 [Ll]ogs/
-
+FirstWinger_Build/
 
 # Never ignore Asset meta data 
 ![Aa]ssets/**/*.meta 
