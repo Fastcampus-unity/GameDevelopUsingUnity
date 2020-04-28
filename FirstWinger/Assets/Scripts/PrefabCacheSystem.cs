@@ -104,7 +104,7 @@ public class PrefabCacheSystem
         Bullet bullet = gameObject.GetComponent<Bullet>();
         if (bullet != null)
         {
-            bullet.RpcSetActive(true);
+            bullet.RpcSetActive(false);
         }
 
 
