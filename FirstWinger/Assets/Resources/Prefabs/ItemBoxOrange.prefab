@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7205510560868078407}
   - component: {fileID: 71241446572446896}
   - component: {fileID: 5131052359740055397}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: FrontQuad
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90,7 +90,9 @@ GameObject:
   - component: {fileID: 4955855992210553151}
   - component: {fileID: 4053131876861600820}
   - component: {fileID: 8760448811724460858}
-  m_Layer: 0
+  - component: {fileID: -638373792447470903}
+  - component: {fileID: 5864370183547122394}
+  m_Layer: 12
   m_Name: ItemBoxOrange
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -138,6 +140,59 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 548ecc33526c6994c8d5e97af0edd729, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SelfTransform: {fileID: 4955855992210553151}
+  RotateAngle: {x: 0, y: 0.5, z: 0}
+  filePath: 
+  MoveVector: {x: -1, y: 0, z: 0}
+--- !u!114 &-638373792447470903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6763313430219163692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8258ea15b8f74c4889ce485d21cbbb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 0
+    i1: 0
+    i2: 0
+    i3: 0
+    i4: 0
+    i5: 0
+    i6: 0
+    i7: 0
+    i8: 0
+    i9: 0
+    i10: 0
+    i11: 0
+    i12: 0
+    i13: 0
+    i14: 0
+    i15: 0
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
+--- !u!54 &5864370183547122394
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6763313430219163692}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &7090037131523100188
 GameObject:
   m_ObjectHideFlags: 0
@@ -149,7 +204,7 @@ GameObject:
   - component: {fileID: 3665850089398604146}
   - component: {fileID: 2173523896712181440}
   - component: {fileID: 1257388714826550402}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: BackQuad
   m_TagString: Untagged
   m_Icon: {fileID: 0}

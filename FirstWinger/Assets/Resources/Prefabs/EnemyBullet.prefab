@@ -142,7 +142,7 @@ MonoBehaviour:
   MoveDirection: {x: 0, y: 0, z: 0}
   Speed: 0
   Damage: 1
-  Owner: {fileID: 0}
+  OwnerInstanceID: 0
   filePath: 
 --- !u!114 &3718208207631467782
 MonoBehaviour:

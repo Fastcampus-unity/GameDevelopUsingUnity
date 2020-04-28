@@ -97,6 +97,9 @@ public class Player : Actor
 
     protected override void UpdateActor()
     {
+        if (!isLocalPlayer)
+            return;
+
         UpdateInput();
         UpdateMove();
     }
