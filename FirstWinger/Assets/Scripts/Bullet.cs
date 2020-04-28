@@ -17,7 +17,7 @@ public class Bullet : NetworkBehaviour
     float Speed = 0.0f;
 
     [SyncVar]
-    bool NeedMove = false; // 이동플래그
+    protected bool NeedMove = false; // 이동플래그
 
     [SyncVar]
     float FiredTime;
@@ -72,7 +72,7 @@ public class Bullet : NetworkBehaviour
         UpdateMove();
     }
 
-    void UpdateMove()
+    protected virtual void UpdateMove()
     {
         if (!NeedMove)
             return;
@@ -84,7 +84,7 @@ public class Bullet : NetworkBehaviour
 
     }
 
-    public void Fire(int ownerInstanceID, Vector3 firePosition, Vector3 direction, float speed, int damage)
+    public virtual void Fire(int ownerInstanceID, Vector3 firePosition, Vector3 direction, float speed, int damage)
     {
         OwnerInstanceID = ownerInstanceID;
         SetPosition(firePosition);
