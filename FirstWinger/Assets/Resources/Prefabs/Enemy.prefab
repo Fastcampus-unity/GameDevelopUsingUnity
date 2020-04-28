@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4021053212677264966}
   - component: {fileID: 750582412321400228}
   - component: {fileID: 3796356156861692215}
+  - component: {fileID: 9022886240276501161}
   m_Layer: 8
   m_Name: Enemy
   m_TagString: Untagged
@@ -32,7 +33,7 @@ Transform:
   - {fileID: 4384265779721425360}
   - {fileID: 1558925496071195909}
   - {fileID: 4774166319271542979}
-  - {fileID: 1907911203392413721}
+  - {fileID: 6300542886994415124}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -57,7 +58,6 @@ MonoBehaviour:
   TargetPosition: {x: -15, y: 0, z: 0}
   CurrentSpeed: 0
   FireTransform: {fileID: 4774166319271542979}
-  Bullet: {fileID: 6835411853971257545, guid: b74d08f315064744dbc8c802971be4a2, type: 3}
   BulletSpeed: 10
   FireRemainCount: 3
   GamePoint: 10
@@ -77,6 +77,39 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &9022886240276501161
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 911221812821680546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8258ea15b8f74c4889ce485d21cbbb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 0
+    i1: 0
+    i2: 0
+    i3: 0
+    i4: 0
+    i5: 0
+    i6: 0
+    i7: 0
+    i8: 0
+    i9: 0
+    i10: 0
+    i11: 0
+    i12: 0
+    i13: 0
+    i14: 0
+    i15: 0
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!1 &4382428175121329618
 GameObject:
   m_ObjectHideFlags: 0
@@ -334,7 +367,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f7550a617ae3dc24abb8f1e8ea05e066, type: 3}
---- !u!4 &1907911203392413721 stripped
+--- !u!4 &6300542886994415124 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5551325899134856829, guid: f7550a617ae3dc24abb8f1e8ea05e066,
     type: 3}

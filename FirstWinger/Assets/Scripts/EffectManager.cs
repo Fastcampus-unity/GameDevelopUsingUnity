@@ -72,7 +72,7 @@ public class EffectManager : MonoBehaviour
         for (int i = 0; i < effectFiles.Length; i++)
         {
             GameObject go = Load(effectFiles[i].filePath);
-            SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().EffectCacheSystem.GenerateCache(effectFiles[i].filePath, go, effectFiles[i].cacheCount);
+            SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().EffectCacheSystem.GenerateCache(effectFiles[i].filePath, go, effectFiles[i].cacheCount, this.transform);
         }
     }
 

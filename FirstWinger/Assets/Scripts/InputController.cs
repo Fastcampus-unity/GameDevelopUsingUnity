@@ -8,7 +8,7 @@ public class InputController
     // Update is called once per frame
     public void UpdateInput()
     {
-        if (SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().CurrentGameState != InGameSceneMain.GameState.Running)
+        if (SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().CurrentGameState != GameState.Running)
             return;
 
         UpdateKeyboard();

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class Enemy : Actor
 {
@@ -18,6 +19,7 @@ public class Enemy : Actor
     /// 현재 상태값
     /// </summary>
     [SerializeField]
+    [SyncVar]
     State CurrentState = State.None;
 
     /// <summary>
@@ -35,41 +37,73 @@ public class Enemy : Actor
     /// 목표점
     /// </summary>
     [SerializeField]
+    [SyncVar]
     Vector3 TargetPosition;
 
     [SerializeField]
+    [SyncVar]
     float CurrentSpeed;
 
     /// <summary>
     /// 방향을 고려한 속도 벡터
     /// </summary>
+    [SyncVar]
     Vector3 CurrentVelocity;
 
+    [SyncVar] 
     float MoveStartTime = 0.0f; // 이동시작 시간
 
     [SerializeField]
     Transform FireTransform;
 
     [SerializeField]
+    [SyncVar]
     float BulletSpeed = 1;
 
-
+    [SyncVar]
     float LastActionUpdateTime = 0.0f;
 
     [SerializeField]
+    [SyncVar]
     int FireRemainCount = 1;
 
     [SerializeField]
+    [SyncVar]
     int GamePoint = 10;
+
+    [SyncVar]
+    [SerializeField]
+    string filePath;
 
     public string FilePath
     {
-        get;
-        set;
+        get
+        {
+            return filePath;
+        }
+        set
+        {
+            filePath = value;
+        }
     }
 
+    [SyncVar]
     Vector3 AppearPoint;      // 입장시 도착 위치
+    [SyncVar]
     Vector3 DisappearPoint;      // 퇴장시 목표 위치
+
+    protected override void Initialize()
+    {
+        base.Initialize();
+        
+        if(!((FWNetworkManager)FWNetworkManager.singleton).isServer)
+        {
+            InGameSceneMain inGameSceneMain = SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>();
+            transform.SetParent(inGameSceneMain.EnemyManager.transform);
+            inGameSceneMain.EnemyCacheSystem.Add(FilePath, gameObject);
+            gameObject.SetActive(false);
+        }
+    }
 
     // Update is called once per frame
     protected override void UpdateActor()
@@ -154,6 +188,8 @@ public class Enemy : Actor
 
         CurrentState = State.Ready;
         LastActionUpdateTime = Time.time;
+
+        UpdateNetworkActor();
     }
 
     public void Appear(Vector3 targetPos)

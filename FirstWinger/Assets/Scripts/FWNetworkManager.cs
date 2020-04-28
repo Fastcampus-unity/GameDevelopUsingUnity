@@ -5,10 +5,22 @@ using UnityEngine.Networking;
 
 public class FWNetworkManager : NetworkManager
 {
+    public const int WatingPlayerCount = 2;
+
+    int PlayerCount = 0;
+
+    public bool isServer
+    {
+        get;
+        private set;
+    }
+
+
     #region SERVER SIDE EVENT
+
     public override void OnServerConnect(NetworkConnection conn)
     {
-        Debug.Log("OnServerConnect Call : " + conn.address);
+        Debug.Log("OnServerConnect Call : " + conn.address + ", " + conn.connectionId);
         base.OnServerConnect(conn);
     }
 
@@ -20,8 +32,16 @@ public class FWNetworkManager : NetworkManager
 
     public override void OnServerReady(NetworkConnection conn)
     {
-        Debug.Log("OnServerReady : " + conn.address);
+        Debug.Log("OnServerReady : " + conn.address + ", " + conn.connectionId);
         base.OnServerReady(conn);
+
+        PlayerCount++;
+
+        if(PlayerCount >= WatingPlayerCount)
+        {
+            InGameSceneMain inGameSceneMain = SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>();
+            inGameSceneMain.GameStart();
+        }
     }
 
     public override void OnServerError(NetworkConnection conn, int errorCode)
@@ -34,6 +54,13 @@ public class FWNetworkManager : NetworkManager
     {
         Debug.Log("OnServerDisconnect : " + conn.address);
         base.OnServerDisconnect(conn);
+    }
+
+    public override void OnStartServer()
+    {
+        Debug.Log("OnStartServer");
+        base.OnStartServer();
+        isServer = true;
     }
 
     #endregion

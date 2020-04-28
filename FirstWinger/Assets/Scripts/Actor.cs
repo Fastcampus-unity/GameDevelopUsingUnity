@@ -6,18 +6,23 @@ using UnityEngine.Networking;
 public class Actor : NetworkBehaviour
 {
     [SerializeField]
+    [SyncVar]
     protected int MaxHP = 100;
 
     [SerializeField]
+    [SyncVar]
     protected int CurrentHP;
 
     [SerializeField]
+    [SyncVar]
     protected int Damage = 1;
 
     [SerializeField]
+    [SyncVar]
     protected int crashDamage = 100;
 
     [SerializeField]
+    [SyncVar]
     bool isDead = false;
 
     public bool IsDead
@@ -93,6 +98,73 @@ public class Actor : NetworkBehaviour
         isDead = true;
 
         SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().EffectManager.GenerateEffect(EffectManager.ActorDeadFxIndex, transform.position);
+    }
+
+    public void SetPosition(Vector3 position)
+    {
+        // 정상적으로 NetworkBehaviour 인스턴스의 Update로 호출되어 실행되고 있을때
+        //CmdSetPosition(position);
+
+        // MonoBehaviour 인스턴스의 Update로 호출되어 실행되고 있을때의 꼼수
+        if (isServer)
+        {
+            RpcSetPosition(position);        // Host 플레이어인경우 RPC로 보내고
+        }
+        else
+        {
+            CmdSetPosition(position);        // Client 플레이어인경우 Cmd로 호스트로 보낸후 자신을 Self 동작
+            if (isLocalPlayer)
+                transform.position = position;
+        }
+    }
+
+    [Command]
+    public void CmdSetPosition(Vector3 position)
+    {
+        this.transform.position = position;
+        base.SetDirtyBit(1);
+    }
+
+    [ClientRpc]
+    public void RpcSetPosition(Vector3 position)
+    {
+        this.transform.position = position;
+        base.SetDirtyBit(1);
+    }
+
+    [ClientRpc]
+    public void RpcSetActive(bool value)
+    {
+        this.gameObject.SetActive(value);
+        base.SetDirtyBit(1);
+    }
+
+    public void UpdateNetworkActor()
+    {
+        // 정상적으로 NetworkBehaviour 인스턴스의 Update로 호출되어 실행되고 있을때
+        //CmdUpdateNetworkActor();
+
+        // MonoBehaviour 인스턴스의 Update로 호출되어 실행되고 있을때의 꼼수
+        if (isServer)
+        {
+            RpcUpdateNetworkActor();        // Host 플레이어인경우 RPC로 보내고
+        }
+        else
+        {
+            CmdUpdateNetworkActor();        // Client 플레이어인경우 Cmd로 호스트로 보낸후 자신을 Self 동작
+        }
+    }
+
+    [Command]
+    public void CmdUpdateNetworkActor()
+    {
+        base.SetDirtyBit(1);
+    }
+
+    [ClientRpc]
+    public void RpcUpdateNetworkActor()
+    {
+        base.SetDirtyBit(1);
     }
 
 

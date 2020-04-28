@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 [System.Serializable]
 public class PrefabCacheData
@@ -29,6 +30,16 @@ public class PrefabCacheSystem
 
                 go.SetActive(false);
                 queue.Enqueue(go);
+
+                Enemy enemy = go.GetComponent<Enemy>();
+                if(enemy != null)
+                {
+                    enemy.FilePath = filePath;
+                    NetworkServer.Spawn(go);
+
+                    //enemy.RpcSetActive(false);
+                }
+
             }
 
             Caches.Add(filePath, queue);
@@ -52,6 +63,12 @@ public class PrefabCacheSystem
         GameObject go = Caches[filePath].Dequeue();
         go.SetActive(true);
 
+        Enemy enemy = go.GetComponent<Enemy>();
+        if (enemy != null)
+        {
+            enemy.RpcSetActive(true);
+        }
+
         return go;
     }
 
@@ -64,8 +81,29 @@ public class PrefabCacheSystem
         }
 
         gameObject.SetActive(false);
+        Enemy enemy = gameObject.GetComponent<Enemy>();
+        if (enemy != null)
+        {
+            enemy.RpcSetActive(false);
+        }
 
         Caches[filePath].Enqueue(gameObject);
         return true;
+    }
+
+    public void Add(string filePath, GameObject gameObject)
+    {
+        Queue<GameObject> queue;
+        if (Caches.ContainsKey(filePath))
+        {
+            queue = Caches[filePath];
+        }
+        else
+        {
+            queue = new Queue<GameObject>();
+            Caches.Add(filePath, queue);
+        }
+
+        queue.Enqueue(gameObject);
     }
 }

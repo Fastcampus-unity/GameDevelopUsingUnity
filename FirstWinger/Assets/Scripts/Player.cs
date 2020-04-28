@@ -38,8 +38,19 @@ public class Player : Actor
         PlayerStatePanel playerStatePanel = PanelManager.GetPanel(typeof(PlayerStatePanel)) as PlayerStatePanel;
         playerStatePanel.SetHP(CurrentHP, MaxHP);
 
+        InGameSceneMain inGameSceneMain = SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>();
+
         if (isLocalPlayer)
-            SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().Hero = this;
+            inGameSceneMain.Hero = this;
+
+        Transform startTransform;
+        if (isServer)
+            startTransform = inGameSceneMain.PlayerStartTransform1;
+        else
+            startTransform = inGameSceneMain.PlayerStartTransform2;
+
+        SetPosition(startTransform.position);
+
     }
 
     public override void OnStartClient()

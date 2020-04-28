@@ -54,7 +54,7 @@ public class BulletManager : MonoBehaviour
         for (int i = 0; i < bulletFiles.Length; i++)
         {
             GameObject go = Load(bulletFiles[i].filePath);
-            SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().BulletCacheSystem.GenerateCache(bulletFiles[i].filePath, go, bulletFiles[i].cacheCount);
+            SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().BulletCacheSystem.GenerateCache(bulletFiles[i].filePath, go, bulletFiles[i].cacheCount, this.transform);
         }
     }
 

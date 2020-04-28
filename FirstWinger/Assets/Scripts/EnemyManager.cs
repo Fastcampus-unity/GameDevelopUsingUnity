@@ -23,7 +23,7 @@ public class EnemyManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Prepare();
+        //Prepare();
     }
 
     // Update is called once per frame
@@ -35,16 +35,16 @@ public class EnemyManager : MonoBehaviour
     //public bool GenerateEnemy(string filePath, Vector3 position)
     public bool GenerateEnemy(SquadronMemberStruct data)
     {
-        //GameObject go = SystemManager.Instance.EnemyCacheSystem.Archive(data.FilePath);
+        if (!((FWNetworkManager)FWNetworkManager.singleton).isServer)
+            return true;
+
         string FilePath = SystemManager.Instance.EnemyTable.GetEnemy(data.EnemyID).FilePath;
         GameObject go = SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().EnemyCacheSystem.Archive(FilePath);
 
-        //go.transform.position = position; 
-        go.transform.position = new Vector3(data.GeneratePointX, data.GeneratePointY, 0);
+        //go.transform.position = new Vector3(data.GeneratePointX, data.GeneratePointY, 0);
 
         Enemy enemy = go.GetComponent<Enemy>();
-        //enemy.FilePath = data.FilePath;
-        enemy.FilePath = FilePath;
+        enemy.SetPosition(new Vector3(data.GeneratePointX, data.GeneratePointY, 0));
         enemy.Reset(data);
 
         enemies.Add(enemy);
@@ -53,7 +53,10 @@ public class EnemyManager : MonoBehaviour
 
     public bool RemoveEnemy(Enemy enemy)
     {
-        if(!enemies.Contains(enemy))
+        if (!((FWNetworkManager)FWNetworkManager.singleton).isServer)
+            return true;
+
+        if (!enemies.Contains(enemy))
         {
             Debug.LogError("No exist Enemy");
             return false;
@@ -67,10 +70,13 @@ public class EnemyManager : MonoBehaviour
 
     public void Prepare()
     {
-        for(int i = 0; i < enemyFiles.Length; i++)
+        if (!((FWNetworkManager)FWNetworkManager.singleton).isServer)
+            return;
+
+        for (int i = 0; i < enemyFiles.Length; i++)
         {
             GameObject go = enemyFactory.Load(enemyFiles[i].filePath);
-            SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().EnemyCacheSystem.GenerateCache(enemyFiles[i].filePath, go, enemyFiles[i].cacheCount);
+            SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().EnemyCacheSystem.GenerateCache(enemyFiles[i].filePath, go, enemyFiles[i].cacheCount, this.transform);
         }
     }
 
