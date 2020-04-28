@@ -96,13 +96,16 @@ public class Enemy : Actor
     {
         base.Initialize();
         
+        InGameSceneMain inGameSceneMain = SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>();
         if(!((FWNetworkManager)FWNetworkManager.singleton).isServer)
         {
-            InGameSceneMain inGameSceneMain = SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>();
             transform.SetParent(inGameSceneMain.EnemyManager.transform);
             inGameSceneMain.EnemyCacheSystem.Add(FilePath, gameObject);
             gameObject.SetActive(false);
         }
+
+        if(actorInstanceID != 0)
+            inGameSceneMain.ActorManager.Regist(actorInstanceID, this);
     }
 
     // Update is called once per frame
@@ -172,9 +175,25 @@ public class Enemy : Actor
 
     public void Reset(SquadronMemberStruct data)
     {
-        EnemyStruct enemyStruct = SystemManager.Instance.EnemyTable.GetEnemy(data.EnemyID);
+        // 정상적으로 NetworkBehaviour 인스턴스의 Update로 호출되어 실행되고 있을때
+        //CmdReset(data);
 
-        
+        // MonoBehaviour 인스턴스의 Update로 호출되어 실행되고 있을때의 꼼수
+        if (isServer)
+        {
+            RpcReset(data);        // Host 플레이어인경우 RPC로 보내고
+        }
+        else
+        {
+            CmdReset(data);        // Client 플레이어인경우 Cmd로 호스트로 보낸후 자신을 Self 동작
+            if (isLocalPlayer)
+                ResetData(data);
+        }
+    }
+
+    void ResetData(SquadronMemberStruct data)
+    {
+        EnemyStruct enemyStruct = SystemManager.Instance.EnemyTable.GetEnemy(data.EnemyID);
 
         CurrentHP = MaxHP = enemyStruct.MaxHP;             // CurrentHP까지 다시 입력
         Damage = enemyStruct.Damage;                       // 총알 데미지
@@ -188,8 +207,8 @@ public class Enemy : Actor
 
         CurrentState = State.Ready;
         LastActionUpdateTime = Time.time;
-
-        UpdateNetworkActor();
+        //
+        isDead = false;      // Enemy는 재사용되므로 초기화시켜줘야 함
     }
 
     public void Appear(Vector3 targetPos)
@@ -247,25 +266,20 @@ public class Enemy : Actor
                 Vector3 crashPos = player.transform.position + box.center;
                 crashPos.x += box.size.x * 0.5f;
 
-                player.OnCrash(this, CrashDamage, crashPos);
+                player.OnCrash(CrashDamage, crashPos);
             }
         }
-    }
-
-    public override void OnCrash(Actor attacker, int damage, Vector3 crashPos)
-    {
-        base.OnCrash(attacker, damage, crashPos);
     }
 
     public void Fire()
     {
         Bullet bullet = SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().BulletManager.Generate(BulletManager.EnemyBulletIndex);
-        bullet.Fire(this, FireTransform.position, -FireTransform.right, BulletSpeed, Damage);
+        bullet.Fire(actorInstanceID, FireTransform.position, -FireTransform.right, BulletSpeed, Damage);
     }
 
-    protected override void OnDead(Actor killer)
+    protected override void OnDead()
     {
-        base.OnDead(killer);
+        base.OnDead();
 
         SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().GamePointAccumulator.Accumulate(GamePoint);
         SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().EnemyManager.RemoveEnemy(this);
@@ -274,12 +288,26 @@ public class Enemy : Actor
 
     }
 
-    protected override void DecreaseHP(Actor attacker, int value, Vector3 damagePos)
+    protected override void DecreaseHP(int value, Vector3 damagePos)
     {
-        base.DecreaseHP(attacker, value, damagePos);
+        base.DecreaseHP(value, damagePos);
 
         Vector3 damagePoint = damagePos + Random.insideUnitSphere * 0.5f;
         SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().DamageManager.Generate(DamageManager.EnemyDamageIndex, damagePoint, value, Color.magenta);
+    }
+
+    [Command]
+    public void CmdReset(SquadronMemberStruct data)
+    {
+        ResetData(data);
+        base.SetDirtyBit(1);
+    }
+
+    [ClientRpc]
+    public void RpcReset(SquadronMemberStruct data)
+    {
+        ResetData(data);
+        base.SetDirtyBit(1);
     }
 }
 

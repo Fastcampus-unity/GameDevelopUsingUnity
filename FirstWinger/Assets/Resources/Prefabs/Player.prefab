@@ -186,7 +186,7 @@ Transform:
   - {fileID: 152319881080952479}
   - {fileID: 8807422433034337545}
   - {fileID: 135285801144374262}
-  - {fileID: 3563360630600096357}
+  - {fileID: 8969443000599721079}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -209,9 +209,8 @@ MonoBehaviour:
   isDead: 0
   MoveVector: {x: 0, y: 0, z: 0}
   NetworkIdentity: {fileID: 5364602139952271591}
-  Speed: 5
+  Speed: 10
   boxCollider: {fileID: 1809880761277366367}
-  MainBGQuadTransform: {fileID: 0}
   FireTransform: {fileID: 135285801144374262}
   BulletSpeed: 10
 --- !u!54 &884731603003614781
@@ -357,7 +356,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f7550a617ae3dc24abb8f1e8ea05e066, type: 3}
---- !u!4 &3563360630600096357 stripped
+--- !u!4 &8969443000599721079 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5551325899134856829, guid: f7550a617ae3dc24abb8f1e8ea05e066,
     type: 3}

@@ -22,7 +22,7 @@ public class InGameSceneMain : BaseSceneMain
         {
             if (!player)
             {
-                Debug.LogError("Main Player is not setted!");
+                Debug.LogWarning("Main Player is not setted!");
             }
 
             return player;
@@ -173,6 +173,16 @@ public class InGameSceneMain : BaseSceneMain
         get
         {
             return inGameNetworkTransfer;
+        }
+    }
+
+    ActorManager actorManager = new ActorManager();
+
+    public ActorManager ActorManager
+    {
+        get
+        {
+            return actorManager;
         }
     }
 
