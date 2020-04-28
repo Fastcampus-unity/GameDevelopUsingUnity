@@ -13,6 +13,9 @@ public class InputController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().CurrentGameState != InGameSceneMain.GameState.Running)
+            return;
+
         UpdateKeyboard();
         UpdateMouse();
     }

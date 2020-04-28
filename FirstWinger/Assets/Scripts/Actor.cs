@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class Actor : MonoBehaviour
+public class Actor : NetworkBehaviour
 {
     [SerializeField]
     protected int MaxHP = 100;
