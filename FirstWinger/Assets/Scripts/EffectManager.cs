@@ -7,6 +7,7 @@ public class EffectManager : MonoBehaviour
 
     public const int BulletDisappearFxIndex = 0;
     public const int ActorDeadFxIndex = 1;
+    public const int BombExplodeFxIndex = 2;
 
     [SerializeField]
     PrefabCacheData[] effectFiles;

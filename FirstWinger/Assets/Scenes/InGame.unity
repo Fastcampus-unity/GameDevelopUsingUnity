@@ -332,6 +332,8 @@ MonoBehaviour:
     cacheCount: 30
   - filePath: Prefabs/WFX_Explosion_Small
     cacheCount: 20
+  - filePath: Prefabs/WFX_Nuke_1
+    cacheCount: 10
 --- !u!4 &202020477
 Transform:
   m_ObjectHideFlags: 0

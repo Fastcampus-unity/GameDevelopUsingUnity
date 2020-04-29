@@ -353,5 +353,33 @@ public class Enemy : Actor
         InGameSceneMain inGameSceneMain = SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>();
         inGameSceneMain.ItemBoxManager.Generate(ItemIndex, transform.position);
     }
+    //
+    public void AddList()
+    {
+        if (isServer)
+            RpcAddList();        // Host 플레이어인경우 RPC로 보내고
+    }
+
+
+    [ClientRpc]
+    public void RpcAddList()
+    {
+        SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().EnemyManager.AddList(this);
+        base.SetDirtyBit(1);
+    }
+
+    public void RemoveList()
+    {
+        if (isServer)
+            RpcRemoveList();        // Host 플레이어인경우 RPC로 보내고
+    }
+
+    [ClientRpc]
+    public void RpcRemoveList()
+    {
+        SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().EnemyManager.RemoveList(this);
+        base.SetDirtyBit(1);
+    }
+
 }
 

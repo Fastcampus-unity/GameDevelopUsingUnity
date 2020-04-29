@@ -22,12 +22,10 @@ public class ActorManager
                 return false;
             }
 
-            Debug.Log(ActorInstanceID + " is already registed!");
             return true;
         }
 
         Actors.Add(ActorInstanceID, actor);
-        Debug.Log("Actor Regist id = " + ActorInstanceID + ", actor = " + actor.name);
         return true;
     }
 

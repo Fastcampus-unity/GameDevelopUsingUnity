@@ -241,6 +241,9 @@ public class Player : Actor
 
     public void FireBomb()
     {
+        if (UsableItemCount <= 0)
+            return;
+
         if (Host)
         {
             Bullet bullet = SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().BulletManager.Generate(BulletManager.PlayerBombIndex);
@@ -250,6 +253,7 @@ public class Player : Actor
         {
             CmdFireBomb(actorInstanceID, FireTransform.position, FireTransform.right, BulletSpeed, Damage);
         }
+        DecreaseUsableItemCount();
     }
 
     [Command]
@@ -257,6 +261,38 @@ public class Player : Actor
     {
         Bullet bullet = SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().BulletManager.Generate(BulletManager.PlayerBombIndex);
         bullet.Fire(ownerInstanceID, firePosition, direction, speed, damage);
+        base.SetDirtyBit(1);
+    }
+
+    void DecreaseUsableItemCount()
+    {
+        // 정상적으로 NetworkBehaviour 인스턴스의 Update로 호출되어 실행되고 있을때
+        //CmdDecreaseUsableItemCount();
+
+        // MonoBehaviour 인스턴스의 Update로 호출되어 실행되고 있을때의 꼼수
+        if (isServer)
+        {
+            RpcDecreaseUsableItemCount();        // Host 플레이어인경우 RPC로 보내고
+        }
+        else
+        {
+            CmdDecreaseUsableItemCount();        // Client 플레이어인경우 Cmd로 호스트로 보낸후 자신을 Self 동작
+            if (isLocalPlayer)
+                UsableItemCount--;
+        }
+    }
+
+    [Command]
+    public void CmdDecreaseUsableItemCount()
+    {
+        UsableItemCount--;
+        base.SetDirtyBit(1);
+    }
+
+    [ClientRpc]
+    public void RpcDecreaseUsableItemCount()
+    {
+        UsableItemCount--;
         base.SetDirtyBit(1);
     }
 

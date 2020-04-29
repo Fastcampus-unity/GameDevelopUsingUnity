@@ -21,13 +21,13 @@ public class Bullet : NetworkBehaviour
 
     [SyncVar]
     float FiredTime;
-    
+
     [SyncVar]
     bool Hited = false; // 부딛혔는지 플래그
 
     [SyncVar]
     [SerializeField]
-    int Damage = 1;
+    protected int Damage = 1;
 
 
     [SyncVar]
@@ -89,7 +89,7 @@ public class Bullet : NetworkBehaviour
 
     }
 
-    public virtual void Fire(int ownerInstanceID, Vector3 firePosition, Vector3 direction, float speed, int damage)
+    void InternelFire(int ownerInstanceID, Vector3 firePosition, Vector3 direction, float speed, int damage)
     {
         OwnerInstanceID = ownerInstanceID;
         SetPosition(firePosition);
@@ -99,8 +99,38 @@ public class Bullet : NetworkBehaviour
 
         NeedMove = true;
         FiredTime = Time.time;
+    }
 
-        UpdateNetworkBullet();
+    public virtual void Fire(int ownerInstanceID, Vector3 firePosition, Vector3 direction, float speed, int damage)
+    {
+        // 정상적으로 NetworkBehaviour 인스턴스의 Update로 호출되어 실행되고 있을때
+        //CmdFire(ownerInstanceID, firePosition, direction, speed, damage);
+
+        // MonoBehaviour 인스턴스의 Update로 호출되어 실행되고 있을때의 꼼수
+        if (isServer)
+        {
+            RpcFire(ownerInstanceID, firePosition, direction, speed, damage);        // Host 플레이어인경우 RPC로 보내고
+        }
+        else
+        {
+            CmdFire(ownerInstanceID, firePosition, direction, speed, damage);        // Client 플레이어인경우 Cmd로 호스트로 보낸후 자신을 Self 동작
+            if (isLocalPlayer)
+                InternelFire(ownerInstanceID, firePosition, direction, speed, damage);
+        }
+    }
+
+    [Command]
+    public void CmdFire(int ownerInstanceID, Vector3 firePosition, Vector3 direction, float speed, int damage)
+    {
+        InternelFire(ownerInstanceID, firePosition, direction, speed, damage);
+        base.SetDirtyBit(1);
+    }
+
+    [ClientRpc]
+    public void RpcFire(int ownerInstanceID, Vector3 firePosition, Vector3 direction, float speed, int damage)
+    {
+        InternelFire(ownerInstanceID, firePosition, direction, speed, damage);
+        base.SetDirtyBit(1);
     }
 
     Vector3 AdjustMove(Vector3 moveVector)
@@ -124,27 +154,27 @@ public class Bullet : NetworkBehaviour
         return moveVector;
     }
 
-    void OnBulletCollision(Collider collider)
+    protected virtual bool OnBulletCollision(Collider collider)
     {
         if (Hited)
-            return;
+            return false;
 
         if (collider.gameObject.layer == LayerMask.NameToLayer("EnemyBullet")
             || collider.gameObject.layer == LayerMask.NameToLayer("PlayerBullet"))
         {
-            return;
+            return false;
         }
 
         Actor owner = SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().ActorManager.GetActor(OwnerInstanceID);
         if (owner == null)  // 호스트나 클라이언트중 한쪽이 끊어졌을때 발생할 수 있음
-            return;
-        
+            return false;
+
         Actor actor = collider.GetComponentInParent<Actor>();
         if (actor == null)
-            return;
+            return false;
 
         if (actor.IsDead || actor.gameObject.layer == owner.gameObject.layer)
-            return;
+            return false;
 
         actor.OnBulletHited(Damage, transform.position);
 
@@ -157,6 +187,8 @@ public class Bullet : NetworkBehaviour
         GameObject go = SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().EffectManager.GenerateEffect(EffectManager.BulletDisappearFxIndex, transform.position);
         go.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
         Disappear();
+
+        return true;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -176,7 +208,7 @@ public class Bullet : NetworkBehaviour
             Disappear();
             return true;
         }
-        else if(Time.time - FiredTime > LifeTime)
+        else if (Time.time - FiredTime > LifeTime)
         {
             Disappear();
             return true;
@@ -185,7 +217,7 @@ public class Bullet : NetworkBehaviour
         return false;
     }
 
-    void Disappear()
+    protected void Disappear()
     {
         SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().BulletManager.Remove(this);
     }
@@ -226,34 +258,6 @@ public class Bullet : NetworkBehaviour
     public void RpcSetPosition(Vector3 position)
     {
         this.transform.position = position;
-        base.SetDirtyBit(1);
-    }
-
-    public void UpdateNetworkBullet()
-    {
-        // 정상적으로 NetworkBehaviour 인스턴스의 Update로 호출되어 실행되고 있을때
-        //CmdUpdateNetworkBullet();
-
-        // MonoBehaviour 인스턴스의 Update로 호출되어 실행되고 있을때의 꼼수
-        if (isServer)
-        {
-            RpcUpdateNetworkBullet();        // Host 플레이어인경우 RPC로 보내고
-        }
-        else
-        {
-            CmdUpdateNetworkBullet();        // Client 플레이어인경우 Cmd로 호스트로 보낸후 자신을 Self 동작
-        }
-    }
-
-    [Command]
-    public void CmdUpdateNetworkBullet()
-    {
-        base.SetDirtyBit(1);
-    }
-
-    [ClientRpc]
-    public void RpcUpdateNetworkBullet()
-    {
         base.SetDirtyBit(1);
     }
 }
