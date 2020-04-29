@@ -20,11 +20,6 @@ public class InGameSceneMain : BaseSceneMain
     {
         get
         {
-            if (!player)
-            {
-                Debug.LogWarning("Main Player is not setted!");
-            }
-
             return player;
         }
         set

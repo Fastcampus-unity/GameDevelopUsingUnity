@@ -69,6 +69,11 @@ public class Bullet : NetworkBehaviour
         if (ProcessDisappearCondition())
             return;
 
+        UpdateTransform();
+    }
+
+    protected virtual void UpdateTransform()
+    {
         UpdateMove();
     }
 

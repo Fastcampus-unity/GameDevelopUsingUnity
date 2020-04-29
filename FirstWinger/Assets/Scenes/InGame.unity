@@ -515,6 +515,8 @@ MonoBehaviour:
     cacheCount: 20
   - filePath: Prefabs/EnemyBullet
     cacheCount: 30
+  - filePath: Prefabs/Bomb
+    cacheCount: 10
 --- !u!4 &374296557
 Transform:
   m_ObjectHideFlags: 0
