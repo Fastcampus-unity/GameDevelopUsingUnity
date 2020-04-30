@@ -69,19 +69,13 @@ public class Player : Actor
             RpcSetHost();
         }
 
-        Transform startTransform;
-        if (Host)
-            startTransform = inGameSceneMain.PlayerStartTransform1;
-        else
+        if(!Host)
         {
-            startTransform = inGameSceneMain.PlayerStartTransform2;
             MeshRenderer meshRenderer = GetComponentInChildren<MeshRenderer>();
             meshRenderer.material = ClientPlayerMaterial;
         }
 
-        SetPosition(startTransform.position);
-
-        if(actorInstanceID != 0)
+        if (actorInstanceID != 0)
             inGameSceneMain.ActorManager.Regist(actorInstanceID, this);
 
         InitializePlayerHUD();
@@ -91,7 +85,7 @@ public class Player : Actor
     {
         InGameSceneMain inGameSceneMain = SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>();
         GameObject go = Resources.Load<GameObject>(PlayerHUDPath);
-        GameObject goInstance = Instantiate<GameObject>(go, inGameSceneMain.DamageManager.CanvasTransform);
+        GameObject goInstance = Instantiate<GameObject>(go, Camera.main.WorldToScreenPoint(transform.position), Quaternion.identity, inGameSceneMain.DamageManager.CanvasTransform);
         PlayerHUD playerHUD = goInstance.GetComponent<PlayerHUD>();
         playerHUD.Initialize(this);
     }
@@ -222,7 +216,7 @@ public class Player : Actor
     {
         if(Host)
         {
-            Bullet bullet = SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().BulletManager.Generate(BulletManager.PlayerBulletIndex);
+            Bullet bullet = SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().BulletManager.Generate(BulletManager.PlayerBulletIndex, FireTransform.position);
             bullet.Fire(actorInstanceID, FireTransform.position, FireTransform.right, BulletSpeed, Damage);
         }
         else
@@ -234,7 +228,7 @@ public class Player : Actor
     [Command]
     public void CmdFire(int ownerInstanceID, Vector3 firePosition, Vector3 direction, float speed, int damage)
     {
-        Bullet bullet = SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().BulletManager.Generate(BulletManager.PlayerBulletIndex);
+        Bullet bullet = SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().BulletManager.Generate(BulletManager.PlayerBulletIndex, firePosition);
         bullet.Fire(ownerInstanceID, firePosition, direction, speed, damage);
         base.SetDirtyBit(1);
     }
@@ -246,7 +240,7 @@ public class Player : Actor
 
         if (Host)
         {
-            Bullet bullet = SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().BulletManager.Generate(BulletManager.PlayerBombIndex);
+            Bullet bullet = SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().BulletManager.Generate(BulletManager.PlayerBombIndex, FireTransform.position);
             bullet.Fire(actorInstanceID, FireTransform.position, FireTransform.right, BulletSpeed, Damage);
         }
         else
@@ -259,7 +253,7 @@ public class Player : Actor
     [Command]
     public void CmdFireBomb(int ownerInstanceID, Vector3 firePosition, Vector3 direction, float speed, int damage)
     {
-        Bullet bullet = SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().BulletManager.Generate(BulletManager.PlayerBombIndex);
+        Bullet bullet = SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().BulletManager.Generate(BulletManager.PlayerBombIndex, firePosition);
         bullet.Fire(ownerInstanceID, firePosition, direction, speed, damage);
         base.SetDirtyBit(1);
     }

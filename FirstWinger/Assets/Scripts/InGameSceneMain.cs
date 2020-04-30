@@ -162,25 +162,6 @@ public class InGameSceneMain : BaseSceneMain
     [SerializeField]
     InGameNetworkTransfer inGameNetworkTransfer;
 
-    [SerializeField]
-    Transform playerStartTransform1;
-    public Transform PlayerStartTransform1
-    {
-        get
-        {
-            return playerStartTransform1;
-        }
-    }
-
-    [SerializeField]
-    Transform playerStartTransform2;
-    public Transform PlayerStartTransform2
-    {
-        get
-        {
-            return playerStartTransform2;
-        }
-    }
 
     InGameNetworkTransfer NetworkTransfer
     {

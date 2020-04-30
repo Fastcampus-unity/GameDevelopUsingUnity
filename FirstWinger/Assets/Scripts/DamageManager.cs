@@ -81,10 +81,7 @@ public class DamageManager : MonoBehaviour
         }
 
         string filePath = Files[index].filePath;
-        GameObject go = SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().DamageCacheSystem.Archive(filePath);
-        //go.transform.position = position;
-        go.transform.position = Camera.main.WorldToScreenPoint(position);
-
+        GameObject go = SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().DamageCacheSystem.Archive(filePath, Camera.main.WorldToScreenPoint(position));
 
         UIDamage damage = go.GetComponent<UIDamage>();
         damage.FilePath = filePath;

@@ -60,7 +60,7 @@ public class PrefabCacheSystem
         }
     }
 
-    public GameObject Archive(string filePath)
+    public GameObject Archive(string filePath, Vector3 position)
     {
         if (!Caches.ContainsKey(filePath))
         {
@@ -76,23 +76,27 @@ public class PrefabCacheSystem
 
         GameObject go = Caches[filePath].Dequeue();
         go.SetActive(true);
+        go.transform.position = position;
         if (((FWNetworkManager)FWNetworkManager.singleton).isServer)
         {
             Enemy enemy = go.GetComponent<Enemy>();
             if (enemy != null)
             {
+                enemy.SetPosition(position);
                 enemy.RpcSetActive(true);
             }
 
             Bullet bullet = go.GetComponent<Bullet>();
             if (bullet != null)
             {
+                bullet.SetPosition(position);
                 bullet.RpcSetActive(true);
             }
 
             ItemBox item = go.GetComponent<ItemBox>();
             if (item != null)
             {
+                item.RpcSetPosition(position);
                 item.RpcSetActive(true);
             }
         }

@@ -7,6 +7,7 @@ public class Boss : Enemy
 {
     const float FireTransformRotationStart = -30.0f;    // 발사방향 회전시 초기값
     const float FireTransformRotationInterval = 15.0f;  // 발사방향 회전시 간격
+    const float ActionUpdateInterval = 1.0f;
 
     [SyncVar]
     bool needBattleMove = false;
@@ -34,6 +35,35 @@ public class Boss : Enemy
         }
     }
 
+    /// <summary>
+    /// 미사일 발사 위치
+    /// </summary>
+    [SerializeField]
+    Transform [] MissileFireTransforms;
+
+    Player[] players;
+
+    Player[] Players
+    {
+        get
+        {
+            if(players == null)
+                players = GameObject.FindObjectsOfType<Player>();
+            return players;
+        }
+    }
+
+    /// <summary>
+    /// 미사일을 발사하기 위한 플래그
+    /// </summary>
+    bool SpecialAttack = false;
+
+    /// <summary>
+    /// 미사일 발사시 사용할 속도
+    /// </summary>
+    [SerializeField]
+    float MissileSpeed = 1;
+
     protected override void SetBattleState()
     {
         base.SetBattleState();
@@ -45,6 +75,7 @@ public class Boss : Enemy
         Quaternion quat = Quaternion.identity;
         quat.eulerAngles = CurrentFireTransformRotation;
         FireTransform.localRotation = quat;
+
     }
 
     protected override void UpdateBattle()
@@ -55,12 +86,18 @@ public class Boss : Enemy
         }
         else
         {
-            if (Time.time - LastActionUpdateTime > 1.0f)
+            if (Time.time - LastActionUpdateTime > ActionUpdateInterval)
             {
                 if (FireRemainCountPerOnetime > 0)
                 {
-                    Fire();
-                    RotateFireTransform();
+                    if(SpecialAttack)
+                        FireChase();
+                    else
+                    {
+                        Fire();
+                        RotateFireTransform();
+                    }
+
                     FireRemainCountPerOnetime--;
                 }
                 else
@@ -105,7 +142,6 @@ public class Boss : Enemy
 
         base.SetDirtyBit(1);
     }
-
 
     void UpdateBattleMove()
     {
@@ -155,6 +191,7 @@ public class Boss : Enemy
         Quaternion quat = Quaternion.identity;
         quat.eulerAngles = CurrentFireTransformRotation;
         FireTransform.localRotation = quat;
+        SpecialAttack = !SpecialAttack;     // 일반 공격과 미사일 공격을 번갈아 가면서 하도록 플래그 반전
 
         base.SetDirtyBit(1);
     }
@@ -176,5 +213,31 @@ public class Boss : Enemy
         base.SetDirtyBit(1);
     }
 
+    /// <summary>
+    /// 미사일 발사 메소드
+    /// </summary>
+    public void FireChase()
+    {
+        // 살아있는 플레이어만 리스트에 추린다
+        List<Player> alivePlayer = new List<Player>();
+        for(int i = 0; i < Players.Length; i++)
+        {
+            if(!Players[i].IsDead)
+            {
+                alivePlayer.Add(Players[i]);
+            }
+        }
 
+        // 플레이어 중 랜덤한 타겟을 선택
+        int index = Random.Range(0, alivePlayer.Count);
+        int targetInstanceID = alivePlayer[index].ActorInstanceID;
+
+        // 미사일을 추적모드로 발사
+        Transform missileFireTransform = MissileFireTransforms[ MissileFireTransforms.Length - FireRemainCountPerOnetime ];
+        GuidedMissile missile = SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().BulletManager.Generate(BulletManager.GuidedMissileIndex, missileFireTransform.position) as GuidedMissile;
+        if (missile)
+        {
+            missile.FireChase(targetInstanceID, actorInstanceID, missileFireTransform.position, missileFireTransform.right, MissileSpeed, Damage);
+        }
+    }
 }

@@ -8,6 +8,7 @@ public class BulletManager : MonoBehaviour
     public const int EnemyBulletIndex = 1;
     public const int PlayerBombIndex = 2;
     public const int BossBulletIndex = 3;
+    public const int GuidedMissileIndex = 4;
 
     [SerializeField]
     PrefabCacheData[] bulletFiles;
@@ -18,7 +19,6 @@ public class BulletManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //Prepare();
     }
 
     // Update is called once per frame
@@ -63,13 +63,13 @@ public class BulletManager : MonoBehaviour
         }
     }
 
-    public Bullet Generate(int index)
+    public Bullet Generate(int index, Vector3 position)
     {
         if (!((FWNetworkManager)FWNetworkManager.singleton).isServer)
             return null;
 
         string filePath = bulletFiles[index].filePath;
-        GameObject go = SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().BulletCacheSystem.Archive(filePath);
+        GameObject go = SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().BulletCacheSystem.Archive(filePath, position);
 
         Bullet bullet = go.GetComponent<Bullet>();
 

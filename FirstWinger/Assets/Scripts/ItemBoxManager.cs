@@ -32,10 +32,9 @@ public class ItemBoxManager : MonoBehaviour
         }
 
         string filePath = ItemBoxFiles[index].filePath;
-        GameObject go = SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().ItemBoxCacheSystem.Archive(filePath);
+        GameObject go = SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().ItemBoxCacheSystem.Archive(filePath, position);
 
         ItemBox item = go.GetComponent<ItemBox>();
-        item.RpcSetPosition(position);
         item.FilePath = filePath;
 
         return go;

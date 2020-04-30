@@ -524,6 +524,8 @@ MonoBehaviour:
     cacheCount: 10
   - filePath: Prefabs/BossBullet
     cacheCount: 20
+  - filePath: Prefabs/GuidedMissile
+    cacheCount: 20
 --- !u!4 &374296557
 Transform:
   m_ObjectHideFlags: 0
@@ -769,6 +771,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 820176459}
+  - component: {fileID: 820176460}
   m_Layer: 0
   m_Name: PlayerStart1
   m_TagString: Untagged
@@ -790,6 +793,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &820176460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 820176458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 921ceb7939c624969a567b4c88e17315, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &996619616
 GameObject:
   m_ObjectHideFlags: 0
@@ -2761,8 +2776,6 @@ MonoBehaviour:
   squadronManager: {fileID: 996619617}
   mainBGQuadTransform: {fileID: 1385752024}
   inGameNetworkTransfer: {fileID: 790034744}
-  playerStartTransform1: {fileID: 820176459}
-  playerStartTransform2: {fileID: 2141848424}
   BossEnemyID: 7
   BossGeneratePos: {x: 15, y: 0, z: 0}
   BossAppearPos: {x: 6, y: 0, z: 0}
@@ -3137,6 +3150,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2141848424}
+  - component: {fileID: 2141848425}
   m_Layer: 0
   m_Name: PlayerStart2
   m_TagString: Untagged
@@ -3158,3 +3172,15 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2141848425
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2141848423}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 921ceb7939c624969a567b4c88e17315, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

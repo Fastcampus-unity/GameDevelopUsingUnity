@@ -10,17 +10,17 @@ public class Bullet : NetworkBehaviour
 
     [SyncVar]
     [SerializeField]
-    Vector3 MoveDirection = Vector3.zero;
+    protected Vector3 MoveDirection = Vector3.zero;
 
     [SyncVar]
     [SerializeField]
-    float Speed = 0.0f;
+    protected float Speed = 0.0f;
 
     [SyncVar]
     protected bool NeedMove = false; // 이동플래그
 
     [SyncVar]
-    float FiredTime;
+    protected float FiredTime;
 
     [SyncVar]
     bool Hited = false; // 부딛혔는지 플래그
@@ -133,7 +133,7 @@ public class Bullet : NetworkBehaviour
         base.SetDirtyBit(1);
     }
 
-    Vector3 AdjustMove(Vector3 moveVector)
+    protected Vector3 AdjustMove(Vector3 moveVector)
     {
         // 레이캐스트 힛 초기화
         RaycastHit hitInfo;
