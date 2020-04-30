@@ -118,13 +118,16 @@ public class WarningPanel : BasePanel
     void OnPhaseStay()
     {
         Debug.Log("OnPhaseStay");
+        SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().GenerateBoss();
     }
 
     void OnPhaseEnd()
     {
         Debug.Log("OnPhaseEnd");
         Close();
-        SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().SetRunningState();
+
+        if (((FWNetworkManager)FWNetworkManager.singleton).isServer)
+            SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().SetRunningState();
     }
 
 }

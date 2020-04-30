@@ -182,7 +182,6 @@ public class InGameSceneMain : BaseSceneMain
         }
     }
 
-
     InGameNetworkTransfer NetworkTransfer
     {
         get
@@ -201,6 +200,16 @@ public class InGameSceneMain : BaseSceneMain
         }
     }
 
+
+    [SerializeField]
+    string BossFilePath;
+
+    [SerializeField]
+    Vector3 BossGeneratePos;
+
+    [SerializeField]
+    Vector3 BossAppearPos;
+
     public void GameStart()
     {
         NetworkTransfer.RpcGameStart();
@@ -217,4 +226,17 @@ public class InGameSceneMain : BaseSceneMain
         NetworkTransfer.RpcSetRunningState();
     }
 
+
+    public void GenerateBoss()
+    {
+        SquadronMemberStruct data = new SquadronMemberStruct();
+        data.GeneratePointX = BossGeneratePos.x;
+        data.GeneratePointY = BossGeneratePos.y;
+        data.AppearPointX = BossAppearPos.x;
+        data.AppearPointY = BossAppearPos.y;
+        data.DisappearPointX = -15.0f;
+        data.DisappearPointY = 0.0f;
+
+        EnemyManager.GenerateBoss(BossFilePath, data);
+    }
 }

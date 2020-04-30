@@ -25,7 +25,7 @@ public class Enemy : Actor
     /// <summary>
     /// 최고 속도
     /// </summary>
-    const float MaxSpeed = 10.0f;
+    protected const float MaxSpeed = 10.0f;
 
     /// <summary>
     /// 최고 속도에 이르는 시간
@@ -38,20 +38,20 @@ public class Enemy : Actor
     /// </summary>
     [SerializeField]
     [SyncVar]
-    Vector3 TargetPosition;
+    protected Vector3 TargetPosition;
 
     [SerializeField]
     [SyncVar]
-    float CurrentSpeed;
+    protected float CurrentSpeed;
 
     /// <summary>
     /// 방향을 고려한 속도 벡터
     /// </summary>
     [SyncVar]
-    Vector3 CurrentVelocity;
+    protected Vector3 CurrentVelocity;
 
     [SyncVar] 
-    float MoveStartTime = 0.0f; // 이동시작 시간
+    protected float MoveStartTime = 0.0f; // 이동시작 시간
 
     [SerializeField]
     Transform FireTransform;
@@ -61,11 +61,11 @@ public class Enemy : Actor
     float BulletSpeed = 1;
 
     [SyncVar]
-    float LastActionUpdateTime = 0.0f;
+    protected float LastActionUpdateTime = 0.0f;
 
     [SerializeField]
     [SyncVar]
-    int FireRemainCount = 1;
+    protected int FireRemainCount = 1;
 
     [SerializeField]
     [SyncVar]
@@ -144,7 +144,7 @@ public class Enemy : Actor
         }
     }
 
-    void UpdateSpeed()
+    protected void UpdateSpeed()
     {
         // CurrentSpeed 에서 MaxSpeed 에 도달하는 비율을 흐른 시간많큼 계산
         CurrentSpeed = Mathf.Lerp(CurrentSpeed, MaxSpeed, (Time.time - MoveStartTime) / MaxSpeedTime);
@@ -172,14 +172,19 @@ public class Enemy : Actor
         CurrentSpeed = 0.0f;    // 도착했으므로 속도는 0
         if (CurrentState == State.Appear)
         {
-            CurrentState = State.Battle;
-            LastActionUpdateTime = Time.time;
+            SetBattleState();
         }
         else // if (CurrentState == State.Disappear)
         {
             CurrentState = State.None;
             SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().EnemyManager.RemoveEnemy(this);
         }
+    }
+
+    protected virtual void SetBattleState()
+    {
+        CurrentState = State.Battle;
+        LastActionUpdateTime = Time.time;
     }
 
     public void Reset(SquadronMemberStruct data)
@@ -249,7 +254,7 @@ public class Enemy : Actor
         }
     }
 
-    void UpdateBattle()
+    protected virtual void UpdateBattle()
     {
         if(Time.time - LastActionUpdateTime > 1.0f)
         {
@@ -286,7 +291,8 @@ public class Enemy : Actor
     public void Fire()
     {
         Bullet bullet = SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().BulletManager.Generate(BulletManager.EnemyBulletIndex);
-        bullet.Fire(actorInstanceID, FireTransform.position, -FireTransform.right, BulletSpeed, Damage);
+        if(bullet)
+            bullet.Fire(actorInstanceID, FireTransform.position, -FireTransform.right, BulletSpeed, Damage);
     }
 
     protected override void OnDead()

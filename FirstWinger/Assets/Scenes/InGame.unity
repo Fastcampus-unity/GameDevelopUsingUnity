@@ -285,6 +285,8 @@ MonoBehaviour:
   enemyFiles:
   - filePath: Prefabs/Enemy
     cacheCount: 10
+  - filePath: Prefabs/Boss
+    cacheCount: 1
 --- !u!4 &191712768
 Transform:
   m_ObjectHideFlags: 0
@@ -2759,6 +2761,9 @@ MonoBehaviour:
   inGameNetworkTransfer: {fileID: 790034744}
   playerStartTransform1: {fileID: 820176459}
   playerStartTransform2: {fileID: 2141848424}
+  BossFilePath: Prefabs/Boss
+  BossGeneratePos: {x: 15, y: 0, z: 0}
+  BossAppearPos: {x: 6, y: 0, z: 0}
 --- !u!4 &1925877094
 Transform:
   m_ObjectHideFlags: 0
