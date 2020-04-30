@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3133877508335435105}
   - component: {fileID: 3124688541672561223}
   - component: {fileID: 6064929820707920063}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: BombModel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -104,7 +104,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7168870165005240269}
   - component: {fileID: 3305419171203167173}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: ExplodeArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -150,7 +150,7 @@ GameObject:
   - component: {fileID: 1215312252248240923}
   - component: {fileID: 8146024334204079535}
   - component: {fileID: 8330536786464884833}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: Bomb
   m_TagString: Untagged
   m_Icon: {fileID: 0}

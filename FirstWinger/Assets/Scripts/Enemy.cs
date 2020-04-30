@@ -54,7 +54,7 @@ public class Enemy : Actor
     protected float MoveStartTime = 0.0f; // 이동시작 시간
 
     [SerializeField]
-    Transform FireTransform;
+    protected Transform FireTransform;
 
     [SerializeField]
     [SyncVar]
@@ -100,6 +100,13 @@ public class Enemy : Actor
     [SyncVar]
     int ItemDropID;         // 아이템 생성시 참조할 ItemDrop 테이블의 인덱스
 
+    protected virtual int BulletIndex
+    {
+        get
+        {
+            return BulletManager.EnemyBulletIndex;
+        }
+    }
 
     protected override void Initialize()
     {
@@ -290,7 +297,7 @@ public class Enemy : Actor
 
     public void Fire()
     {
-        Bullet bullet = SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().BulletManager.Generate(BulletManager.EnemyBulletIndex);
+        Bullet bullet = SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().BulletManager.Generate(BulletIndex);
         if(bullet)
             bullet.Fire(actorInstanceID, FireTransform.position, -FireTransform.right, BulletSpeed, Damage);
     }
@@ -365,7 +372,6 @@ public class Enemy : Actor
         if (isServer)
             RpcAddList();        // Host 플레이어인경우 RPC로 보내고
     }
-
 
     [ClientRpc]
     public void RpcAddList()

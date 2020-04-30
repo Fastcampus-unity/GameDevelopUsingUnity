@@ -48,20 +48,6 @@ public class EnemyManager : MonoBehaviour
         return true;
     }
 
-    public bool GenerateBoss(string FilePath, SquadronMemberStruct data)
-    {
-        if (!((FWNetworkManager)FWNetworkManager.singleton).isServer)
-            return true;
-
-        GameObject go = SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().EnemyCacheSystem.Archive(FilePath);
-
-        Enemy enemy = go.GetComponent<Enemy>();
-        enemy.SetPosition(new Vector3(data.GeneratePointX, data.GeneratePointY, 0));
-        enemy.Reset(data);
-        enemy.AddList();
-        return true;
-    }
-
     public bool RemoveEnemy(Enemy enemy)
     {
         if (!((FWNetworkManager)FWNetworkManager.singleton).isServer)

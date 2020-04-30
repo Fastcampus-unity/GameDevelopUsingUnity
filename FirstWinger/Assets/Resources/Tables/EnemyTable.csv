@@ -6,3 +6,4 @@ index,FilePath,MaxHP,Damage,CrashDamage,BulletSpeed,FireRemainCount,GamePoint,It
 4,Prefabs/Enemy,100,30,100,5,2,9,100,3
 5,Prefabs/Enemy,100,35,100,5,2,10,100,3
 6,Prefabs/Enemy,100,40,100,5,3,11,100,3
+7,Prefabs/Boss,1000,15,1000,5,5,200,100,3

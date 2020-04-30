@@ -200,9 +200,8 @@ public class InGameSceneMain : BaseSceneMain
         }
     }
 
-
     [SerializeField]
-    string BossFilePath;
+    int BossEnemyID;
 
     [SerializeField]
     Vector3 BossGeneratePos;
@@ -230,6 +229,7 @@ public class InGameSceneMain : BaseSceneMain
     public void GenerateBoss()
     {
         SquadronMemberStruct data = new SquadronMemberStruct();
+        data.EnemyID = BossEnemyID;
         data.GeneratePointX = BossGeneratePos.x;
         data.GeneratePointY = BossGeneratePos.y;
         data.AppearPointX = BossAppearPos.x;
@@ -237,6 +237,6 @@ public class InGameSceneMain : BaseSceneMain
         data.DisappearPointX = -15.0f;
         data.DisappearPointY = 0.0f;
 
-        EnemyManager.GenerateBoss(BossFilePath, data);
+        EnemyManager.GenerateEnemy(data);
     }
 }

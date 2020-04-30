@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 835939595853815523}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.576, y: 0, z: 0}
+  m_LocalPosition: {x: -3, y: -0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4021053212677264966}
@@ -95,6 +95,7 @@ MonoBehaviour:
   ItemDropRate: 0
   ItemDropID: 0
   BattleMoveMax: 8
+  CurrentFireTransformRotation: {x: 0, y: 0, z: 0}
 --- !u!54 &8594811566013568734
 Rigidbody:
   m_ObjectHideFlags: 0
