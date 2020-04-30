@@ -16,6 +16,9 @@ public class SquadronManager : MonoBehaviour
 
     bool running = false;
 
+    bool AllSquadronGenerated = false;
+    bool ShowWarningUICalled = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -29,12 +32,17 @@ public class SquadronManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //if(Input.GetKeyDown(KeyCode.K))
-        //{
-        //    StartGame();
-        //}
-
-        CheckSquadronGeneratings();
+        if (!AllSquadronGenerated)
+            CheckSquadronGeneratings();
+        else if(!ShowWarningUICalled)
+        {
+            InGameSceneMain inGameSceneMain = SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>();
+            if (SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().EnemyManager.GetEnemyListCount() == 0)
+            {
+                inGameSceneMain.ShowWarningUI();
+                ShowWarningUICalled = true;
+            }
+        }
     }
 
     public void StartGame()
@@ -60,7 +68,7 @@ public class SquadronManager : MonoBehaviour
 
             if (ScheduleIndex >= squadronScheduleTable.GetDataCount())
             {
-                AllSquadronGenerated();
+                OnAllSquadronGenerated();
                 return;
             }
         }
@@ -77,12 +85,13 @@ public class SquadronManager : MonoBehaviour
         }
     }
 
-    void AllSquadronGenerated()
+    void OnAllSquadronGenerated()
     {
         Debug.Log("AllSquadronGenerated");
-
         running = false;
-    }
+
+        AllSquadronGenerated = true;
+   }
 
 
 
