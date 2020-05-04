@@ -62,6 +62,8 @@ public class Player : Actor
 
         if (isLocalPlayer)
             inGameSceneMain.Hero = this;
+        else
+            inGameSceneMain.OtherPlayer = this;
 
         if (isServer && isLocalPlayer)
         {

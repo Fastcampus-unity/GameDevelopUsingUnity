@@ -89,4 +89,9 @@ public class InGameNetworkTransfer : NetworkBehaviour
         GameEndPanel gameEndPanel = PanelManager.GetPanel(typeof(GameEndPanel)) as GameEndPanel;
         gameEndPanel.ShowGameEnd(success);
     }
+
+    public void SetGameStateEnd()
+    {
+        currentGameState = GameState.End;
+    }
 }

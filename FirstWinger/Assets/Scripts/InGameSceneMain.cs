@@ -28,6 +28,20 @@ public class InGameSceneMain : BaseSceneMain
         }
     }
 
+    Player otherPlayer;
+    public Player OtherPlayer
+    {
+        get
+        {
+            return otherPlayer;
+        }
+        set
+        {
+            otherPlayer = value;
+        }
+
+    }
+
     GamePointAccumulator gamePointAccumulator = new GamePointAccumulator();
 
     public GamePointAccumulator GamePointAccumulator
@@ -190,6 +204,24 @@ public class InGameSceneMain : BaseSceneMain
     [SerializeField]
     Vector3 BossAppearPos;
 
+    protected override void UpdateScene()
+    {
+        base.UpdateScene();
+
+        if(CurrentGameState == GameState.Running)
+        {
+            if (Hero != null && OtherPlayer != null)
+            {
+                if (Hero.IsDead && OtherPlayer.IsDead)
+                {
+                    // 두번진입하지 않도록 강제로 게임종료 셋팅
+                    NetworkTransfer.SetGameStateEnd();
+                    OnGameEnd(false);
+                }
+            }
+        }
+    }
+
     public void GameStart()
     {
         NetworkTransfer.RpcGameStart();
@@ -222,7 +254,8 @@ public class InGameSceneMain : BaseSceneMain
 
     public void OnGameEnd(bool success)
     {
-        NetworkTransfer.RpcGameEnd(success);
+        if (((FWNetworkManager)FWNetworkManager.singleton).isServer)
+            NetworkTransfer.RpcGameEnd(success);
     }
 
     public void GotoTitleScene()
