@@ -224,4 +224,14 @@ public class InGameSceneMain : BaseSceneMain
     {
         NetworkTransfer.RpcGameEnd(success);
     }
+
+    public void GotoTitleScene()
+    {
+        // 네트워크를 끝낸다
+        FWNetworkManager.Shutdown();
+        // 시스템 매니저를 파괴
+        DestroyImmediate(SystemManager.Instance.gameObject);
+        SceneController.Instance.LoadSceneImmediate(SceneNameConstants.TitleScene);
+
+    }
 }

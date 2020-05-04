@@ -5,7 +5,10 @@ using UnityEngine.UI;
 
 public class LoadingSceneMain : BaseSceneMain
 {
-    const float NextSceneIntaval = 3.0f;
+    /// <summary>
+    /// 다음 Scene 이동전 대기시간
+    /// </summary>
+    const float NextSceneIntaval = 0.5f;
     const float TextUpdateIntaval = 0.15f;
     const string LoadingTextValue = "Loading...";
 

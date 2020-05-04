@@ -64,6 +64,11 @@ public class SceneController : MonoBehaviour
         
     }
 
+    public void LoadSceneImmediate(string sceneName)
+    {
+        SceneManager.LoadScene(sceneName);
+    }
+
     /// <summary>
     /// 이전 Scene을 Unload 하고 로딩
     /// </summary>

@@ -16,7 +16,10 @@ public enum GameState : int
 [System.Serializable]
 public class InGameNetworkTransfer : NetworkBehaviour
 {
-    const float GameReadyIntaval = 3.0f;
+    /// <summary>
+    /// 게임을 시작하기전 대기시간
+    /// </summary>
+    const float GameReadyIntaval = 0.5f;
 
     [SyncVar]
     GameState currentGameState = GameState.None;
@@ -81,6 +84,9 @@ public class InGameNetworkTransfer : NetworkBehaviour
     [ClientRpc]
     public void RpcGameEnd(bool success)
     {
-        Debug.Log("RpcGameEnd success = " + success);
+        // 게임을 종료상태로 만들어 입력을 막는다
+        currentGameState = GameState.End;
+        GameEndPanel gameEndPanel = PanelManager.GetPanel(typeof(GameEndPanel)) as GameEndPanel;
+        gameEndPanel.ShowGameEnd(success);
     }
 }
