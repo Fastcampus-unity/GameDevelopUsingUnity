@@ -206,7 +206,6 @@ public class InGameSceneMain : BaseSceneMain
         NetworkTransfer.RpcSetRunningState();
     }
 
-
     public void GenerateBoss()
     {
         SquadronMemberStruct data = new SquadronMemberStruct();
@@ -219,5 +218,10 @@ public class InGameSceneMain : BaseSceneMain
         data.DisappearPointY = 0.0f;
 
         EnemyManager.GenerateEnemy(data);
+    }
+
+    public void OnGameEnd(bool success)
+    {
+        NetworkTransfer.RpcGameEnd(success);
     }
 }

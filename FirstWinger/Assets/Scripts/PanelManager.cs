@@ -27,8 +27,6 @@ public class PanelManager : MonoBehaviour
             return false;
         }
 
-        Debug.Log("RegistPanel is called! Type = " + PanelClassType.ToString() + ", basePanel = " + basePanel.name);
-
         Panels.Add(PanelClassType, basePanel);
         return true;
     }

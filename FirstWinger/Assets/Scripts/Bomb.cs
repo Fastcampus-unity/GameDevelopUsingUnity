@@ -77,9 +77,9 @@ public class Bomb : Bullet
         transform.localRotation = rot;
     }
 
-    public override void Fire(int ownerInstanceID, Vector3 firePosition, Vector3 direction, float speed, int damage)
+    public override void Fire(int ownerInstanceID, Vector3 direction, float speed, int damage)
     {
-        base.Fire(ownerInstanceID, firePosition, direction, speed, damage);
+        base.Fire(ownerInstanceID, direction, speed, damage);
 
         AddForce(Force);
     }

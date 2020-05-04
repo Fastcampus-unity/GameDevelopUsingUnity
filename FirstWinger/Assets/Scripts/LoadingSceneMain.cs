@@ -55,13 +55,10 @@ public class LoadingSceneMain : BaseSceneMain
         NetworkConnectionInfo info = SystemManager.Instance.ConnectionInfo;
         if (info.Host)
         {
-            Debug.Log("FW Start with host!");
             FWNetworkManager.singleton.StartHost();
         }
         else
         {
-            Debug.Log("FW Start with client!");
-
             if (!string.IsNullOrEmpty(info.IPAddress))
                 FWNetworkManager.singleton.networkAddress = info.IPAddress;
 
@@ -70,7 +67,6 @@ public class LoadingSceneMain : BaseSceneMain
 
             FWNetworkManager.singleton.StartClient();
         }
-
 
         NextSceneCall = true;
     }

@@ -114,20 +114,9 @@ public class Actor : NetworkBehaviour
         if (isDead)
             return;
 
-        // 정상적으로 NetworkBehaviour 인스턴스의 Update로 호출되어 실행되고 있을때
-        //CmdDecreaseHP(value, damagePos);
-
         // MonoBehaviour 인스턴스의 Update로 호출되어 실행되고 있을때의 꼼수
         if (isServer)
-        {
             RpcDecreaseHP(value, damagePos);        // Host 플레이어인경우 RPC로 보내고
-        }
-        else
-        {
-            CmdDecreaseHP(value, damagePos);        // Client 플레이어인경우 Cmd로 호스트로 보낸후 자신을 Self 동작
-            if (isLocalPlayer)
-                InternalDecreaseHP(value, damagePos);
-        }
     }
 
     protected virtual void InternalDecreaseHP(int value, Vector3 damagePos)

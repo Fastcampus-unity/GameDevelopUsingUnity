@@ -89,10 +89,9 @@ public class Bullet : NetworkBehaviour
 
     }
 
-    void InternelFire(int ownerInstanceID, Vector3 firePosition, Vector3 direction, float speed, int damage)
+    void InternelFire(int ownerInstanceID, Vector3 direction, float speed, int damage)
     {
         OwnerInstanceID = ownerInstanceID;
-        SetPosition(firePosition);
         MoveDirection = direction;
         Speed = speed;
         Damage = damage;
@@ -101,35 +100,35 @@ public class Bullet : NetworkBehaviour
         FiredTime = Time.time;
     }
 
-    public virtual void Fire(int ownerInstanceID, Vector3 firePosition, Vector3 direction, float speed, int damage)
+    public virtual void Fire(int ownerInstanceID, Vector3 direction, float speed, int damage)
     {
         // 정상적으로 NetworkBehaviour 인스턴스의 Update로 호출되어 실행되고 있을때
-        //CmdFire(ownerInstanceID, firePosition, direction, speed, damage);
+        //CmdFire(ownerInstanceID, direction, speed, damage);
 
         // MonoBehaviour 인스턴스의 Update로 호출되어 실행되고 있을때의 꼼수
         if (isServer)
         {
-            RpcFire(ownerInstanceID, firePosition, direction, speed, damage);        // Host 플레이어인경우 RPC로 보내고
+            RpcFire(ownerInstanceID, direction, speed, damage);        // Host 플레이어인경우 RPC로 보내고
         }
         else
         {
-            CmdFire(ownerInstanceID, firePosition, direction, speed, damage);        // Client 플레이어인경우 Cmd로 호스트로 보낸후 자신을 Self 동작
+            CmdFire(ownerInstanceID,  direction, speed, damage);        // Client 플레이어인경우 Cmd로 호스트로 보낸후 자신을 Self 동작
             if (isLocalPlayer)
-                InternelFire(ownerInstanceID, firePosition, direction, speed, damage);
+                InternelFire(ownerInstanceID, direction, speed, damage);
         }
     }
 
     [Command]
-    public void CmdFire(int ownerInstanceID, Vector3 firePosition, Vector3 direction, float speed, int damage)
+    public void CmdFire(int ownerInstanceID, Vector3 direction, float speed, int damage)
     {
-        InternelFire(ownerInstanceID, firePosition, direction, speed, damage);
+        InternelFire(ownerInstanceID, direction, speed, damage);
         base.SetDirtyBit(1);
     }
 
     [ClientRpc]
-    public void RpcFire(int ownerInstanceID, Vector3 firePosition, Vector3 direction, float speed, int damage)
+    public void RpcFire(int ownerInstanceID, Vector3 direction, float speed, int damage)
     {
-        InternelFire(ownerInstanceID, firePosition, direction, speed, damage);
+        InternelFire(ownerInstanceID, direction, speed, damage);
         base.SetDirtyBit(1);
     }
 

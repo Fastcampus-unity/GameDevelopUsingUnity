@@ -45,13 +45,13 @@ public class GuidedMissile : Bullet
 
     bool needChase = true;
 
-    public void FireChase(int targetInstanceID, int ownerInstanceID, Vector3 firePosition, Vector3 direction, float speed, int damage)
+    public void FireChase(int targetInstanceID, int ownerInstanceID, Vector3 direction, float speed, int damage)
     {
         if (!isServer)
             return;
 
         RpcSetTargetInstanceID(targetInstanceID);        // Host 플레이어인경우 RPC
-        base.Fire(ownerInstanceID, firePosition, direction, speed, damage);
+        base.Fire(ownerInstanceID, direction, speed, damage);
     }
 
     [ClientRpc]

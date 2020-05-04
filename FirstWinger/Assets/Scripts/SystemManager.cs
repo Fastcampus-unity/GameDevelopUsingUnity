@@ -93,7 +93,6 @@ public class SystemManager : MonoBehaviour
     {
 
         BaseSceneMain baseSceneMain = GameObject.FindObjectOfType<BaseSceneMain>();
-        Debug.Log("OnSceneLoaded ! baseSceneMain.name = " + baseSceneMain.name);
         SystemManager.Instance.CurrentSceneMain = baseSceneMain;
 
     }

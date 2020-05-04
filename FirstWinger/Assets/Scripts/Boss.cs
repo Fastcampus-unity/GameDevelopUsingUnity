@@ -237,7 +237,15 @@ public class Boss : Enemy
         GuidedMissile missile = SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().BulletManager.Generate(BulletManager.GuidedMissileIndex, missileFireTransform.position) as GuidedMissile;
         if (missile)
         {
-            missile.FireChase(targetInstanceID, actorInstanceID, missileFireTransform.position, missileFireTransform.right, MissileSpeed, Damage);
+            missile.FireChase(targetInstanceID, actorInstanceID, missileFireTransform.right, MissileSpeed, Damage);
         }
+    }
+
+    protected override void OnDead()
+    {
+        base.OnDead();
+
+        if (isServer)
+            SystemManager.Instance.GetCurrentSceneMain<InGameSceneMain>().OnGameEnd(true);
     }
 }
